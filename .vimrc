@@ -37,6 +37,9 @@ Plug 'ervandew/supertab'
 Plug 'scrooloose/nerdcommenter'
 
 " deoplete
+" 需要安装python依赖
+" pip install pynvim
+" pip install jedi
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
