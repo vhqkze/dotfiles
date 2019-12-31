@@ -1,0 +1,15 @@
+[Unit]
+Description=Aria2
+After=network.target
+
+[Service]
+User=%i
+Type=simple
+ExecStart=/usr/bin/aria2c --conf-path=/home/%i/.config/aria2/aria2.conf
+ExecStop=/bin/kill -s STOP $MAINPID
+ExecReload=/bin/kill -s HUP $MAINPID
+RestartSec=1min
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
