@@ -10,5 +10,5 @@
 # Map a file extension or file name to an existing syntax. For example, to highlight
 # *.conf files with the INI syntax, use '-m conf:ini'. To highlight files named
 # '.myignore' with the Git Ignore syntax, use '-m .myignore:gitignore'.
---map-syntax conf:INI
---map-syntax service:INI
+--map-syntax "*.conf:INI"
+--map-syntax "*.service:INI"

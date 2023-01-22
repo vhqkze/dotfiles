@@ -1,0 +1,132 @@
+# Inserts a blank line between shell prompts
+add_newline = true
+# Move the directory to the second line
+#format = "$username @ $hostname $directory\n$character"
+
+#format = "$all\n$character"
+#format = "$username$hostname$directory$time$package$python\n$character"
+# format = """$username$hostname$localip$kubernetes$directory$time$vcsh$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$docker_context$package$buf$c$cmake$container$dart$deno$dotnet$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$python$rlang$red$ruby$rust$scala$swift$vlang$vagrant$zig$nix_shell$conda$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom$sudo$jobs$battery$cmd_duration$line_break$status$shell$character"""
+
+# right_format = """$time"""
+
+format = " $directory$vcsh$git_branch$git_commit$git_state$git_metrics$git_status$docker_context$package$buf$c$cmake$container$dart$deno$dotnet$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$python$rlang$red$ruby$rust$scala$swift$vlang$vagrant$zig$nix_shell$conda$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom$sudo$jobs$battery$cmd_duration$fill$time $line_break$status$shell$character"
+
+[username]
+show_always = true
+format = "[$user]($style) @ "
+
+[hostname]
+ssh_only = false
+style = "fg:green"
+
+[battery]
+full_symbol = ""
+charging_symbol = ""
+discharging_symbol = ""
+unknown_symbol = ""
+disabled = false
+format = "[ ](fg:#ff6c6b bg:none)[$symbol ](fg:#282c34 bg:#ff6c6b)[ ](fg:#ff6c6b bg:#ff7b7a)[$percentage]($style)[ ](fg:#ff7b7a bg:none)"
+[[battery.display]]
+style = "fg:#282c34 bg:#ff7b7a"
+threshold=100
+
+[time]
+disabled = false
+style="fg:#282c34 bg:#51afef"
+format="[](fg:#3896d6 bg:none)[ ](fg:#282c34 bg:#3896d6)[](fg:#3896d6 bg:#51afef)[ $time]($style)[](fg:#51afef bg:none)"
+time_format = "%R"
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character] # The name of the module we are configuring is "character"
+success_symbol = " [ ](#a9a1e1)"
+error_symbol = " [ ](#ff6c6b)"
+vicmd_symbol = "[  ](#98be65)"
+
+
+[directory]
+read_only = " "
+format = "[](fg:#da8548 bg:none)[ ](fg:#282c34 bg:#da8548)[](fg:#da8548 bg:#ECBE7B)[ $path]($style)[](fg:#ECBE7B bg:none) "
+style = "fg:#282c34 bg:#ECBE7B"
+truncation_length = 3
+
+[status]
+disabled = false
+format = "[$symbol$status]($style) "
+symbol = " "
+
+
+[cmd_duration]
+min_time = 1000
+format = "[](fg:#9088c8 bg:none)[ ](fg:#282c34 bg:#9088c8)[](fg:#9088c8 bg:#a9a1e1)[ $duration]($style)[](fg:#a9a1e1 bg:none)"
+disabled = false
+style = "fg:#282c34 bg:#a9a1e1"
+
+[fill]
+symbol = ' '
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[git_branch]
+format = "[](fg:#7fa54c bg:none)[ ](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $branch]($style)[](fg:#98be65 bg:none) "
+style = "fg:#282c34 bg:#98be65"
+disabled = false
+
+[git_commit]
+format = "[\\($hash\\)]($style)[\\($tag\\)]($style)"
+style = "green"
+
+[git_status]
+format="[](fg:#3896d6 bg:none)[ ](fg:#282c34 bg:#3896d6)[](fg:#3896d6 bg:#51afef)[$modified](fg:#282c34 bg:#51afef)[$untracked](fg:#282c34 bg:#51afef)[$staged](fg:#282c34 bg:#51afef)[$renamed](fg:#282c34 bg:#51afef)[](fg:#51afef bg:none) "
+conflicted = "="
+ahead =	" ⇡${count}"
+behind = " ⇣${count}"
+diverged = " ⇕⇡${ahead_count}⇣${behind_count}"
+untracked = " ?${count}"
+modified = " !${count}"
+staged = " +${count}"
+renamed = " »${count}"
+deleted = " ✘${count}"
+style =	"red"
+disabled = false
+
+[git_state]
+rebase = "REBASING"
+merge =	"MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+style =	"yellow"
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+disabled = false
+
+[hg_branch]
+symbol = ""
+style = "purple"
+format = "on [$symbol$branch]($style) "
+
+[docker_context]
+symbol = " "
+
+[python]
+# symbol = "👾"
+symbol = " "
+format = "[](fg:#7fa54c bg:none)[$symbol](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $version(\\($virtualenv\\))](fg:#282c34 bg:#98be65)[](fg:#98be65 bg:none) "
+# format = 'via [${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
+
+[lua]
+# symbol = "🌙🌜"
+symbol = "🌙"
+format = "[](fg:#7fa54c bg:none)[$symbol](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $version](fg:#282c34 bg:#98be65)[](fg:#98be65 bg:none) "
+
+[nodejs]
+disabled = true
+
+
+[golang]
+symbol = ' '
+format = "[](fg:#7fa54c bg:none)[$symbol](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $version](fg:#282c34 bg:#98be65)[](fg:#98be65 bg:none) "
+
