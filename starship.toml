@@ -1,126 +1,119 @@
 # Inserts a blank line between shell prompts
 add_newline = true
-# Move the directory to the second line
-#format = "$username @ $hostname $directory\n$character"
 
-#format = "$all\n$character"
-#format = "$username$hostname$directory$time$package$python\n$character"
-# format = """$username$hostname$localip$kubernetes$directory$time$vcsh$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$docker_context$package$buf$c$cmake$container$dart$deno$dotnet$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$python$rlang$red$ruby$rust$scala$swift$vlang$vagrant$zig$nix_shell$conda$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom$sudo$jobs$battery$cmd_duration$line_break$status$shell$character"""
 
-# right_format = """$time"""
+format = "( $username)( $directory)( $git_branch)( $git_commit)( $git_state)( $git_status)( $golang)( $java)( $lua)( $nodejs)( $python)( $custom)( $jobs)( $battery)( $cmd_duration)$fill$time $line_break( $status) $character"
 
-format = " $directory$vcsh$git_branch$git_commit$git_state$git_metrics$git_status$docker_context$package$buf$c$cmake$container$dart$deno$dotnet$golang$haskell$helm$java$julia$kotlin$lua$nim$nodejs$ocaml$perl$php$python$rlang$red$ruby$rust$scala$swift$vlang$vagrant$zig$nix_shell$conda$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom$sudo$jobs$battery$cmd_duration$fill$time $line_break$status$shell$character"
+# format = " $character"
+
+
+palette = "catppuccin_macchiato_custom"
+
 
 [username]
-show_always = true
-format = "[$user]($style) @ "
+show_always = false
+format = "[](mauve_dark)[ ](fg:mantle bg:mauve_dark)[](fg:mauve_dark bg:mauve)[ $user](fg:mantle bg:mauve)[](mauve)"
 
-[hostname]
-ssh_only = false
-style = "fg:green"
 
 [battery]
-full_symbol = ""
-charging_symbol = ""
-discharging_symbol = ""
-unknown_symbol = ""
+full_symbol = " "
+charging_symbol = " "
+discharging_symbol = " "
+unknown_symbol = " "
 disabled = false
-format = "[ ](fg:#ff6c6b bg:none)[$symbol ](fg:#282c34 bg:#ff6c6b)[ ](fg:#ff6c6b bg:#ff7b7a)[$percentage]($style)[ ](fg:#ff7b7a bg:none)"
+format = "[](red_dark)[$symbol](fg:mantle bg:red_dark)[](fg:red_dark bg:red)[ $percentage](fg:mantle bg:red)[](red)"
 [[battery.display]]
-style = "fg:#282c34 bg:#ff7b7a"
-threshold=100
+threshold=25
 
-[time]
-disabled = false
-style="fg:#282c34 bg:#51afef"
-format="[](fg:#3896d6 bg:none)[ ](fg:#282c34 bg:#3896d6)[](fg:#3896d6 bg:#51afef)[ $time]($style)[](fg:#51afef bg:none)"
-time_format = "%R"
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character] # The name of the module we are configuring is "character"
-success_symbol = " [ ](#a9a1e1)"
-error_symbol = " [ ](#ff6c6b)"
-vicmd_symbol = "[  ](#98be65)"
+[character]
+success_symbol = "[ ](purple)"
+error_symbol = "[ ](red)"
+vicmd_symbol = "[ ](green)"
 
 
 [directory]
-read_only = " "
-format = "[](fg:#da8548 bg:none)[ ](fg:#282c34 bg:#da8548)[](fg:#da8548 bg:#ECBE7B)[ $path]($style)[](fg:#ECBE7B bg:none) "
-style = "fg:#282c34 bg:#ECBE7B"
+format = "[](peach)[ ](fg:mantle bg:peach)[](fg:peach bg:yellow)[ $path](fg:mantle bg:yellow)[](yellow)"
 truncation_length = 3
+
 
 [status]
 disabled = false
-format = "[$symbol$status]($style) "
+format = "[$symbol$status]($style)"
 symbol = " "
 
 
 [cmd_duration]
 min_time = 1000
-format = "[](fg:#9088c8 bg:none)[ ](fg:#282c34 bg:#9088c8)[](fg:#9088c8 bg:#a9a1e1)[ $duration]($style)[](fg:#a9a1e1 bg:none)"
+format = "[](flamingo)[ ](fg:mantle bg:flamingo)[](fg:flamingo bg:rosewater)[ $duration](fg:mantle bg:rosewater)[](rosewater)"
 disabled = false
-style = "fg:#282c34 bg:#a9a1e1"
+
+
+[jobs]
+symbol = ' '
+number_threshold = 1
+symbol_threshold = 1
+format = "[](mauve_dark)[$symbol](fg:mantle bg:mauve_dark)[](fg:mauve_dark bg:mauve)[ $number job](fg:mantle bg:mauve)[](mauve)"
+
 
 [fill]
 symbol = ' '
 
-# Disable the package module, hiding it from the prompt completely
+
+[time]
+disabled = false
+format="[](blue_dark)[ ](fg:mantle bg:blue_dark)[](fg:blue_dark bg:blue)[ $time](fg:mantle bg:blue)[](blue)"
+time_format = "%R"
+
+
 [package]
 disabled = true
 
+
 [git_branch]
-format = "[](fg:#7fa54c bg:none)[ ](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $branch]($style)[](fg:#98be65 bg:none) "
-style = "fg:#282c34 bg:#98be65"
-disabled = false
+symbol = ' '
+format = "[](lavender_dark)[$symbol](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[ $branch](fg:mantle bg:lavender)[](lavender)"
+
 
 [git_commit]
-format = "[\\($hash\\)]($style)[\\($tag\\)]($style)"
-style = "green"
+tag_symbol = ' '
+format="[](lavender_dark)[$tag_symbol](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[ $hash $tag](fg:mantle bg:lavender)[](lavender)"
+
 
 [git_status]
-format="[](fg:#3896d6 bg:none)[ ](fg:#282c34 bg:#3896d6)[](fg:#3896d6 bg:#51afef)[$modified](fg:#282c34 bg:#51afef)[$untracked](fg:#282c34 bg:#51afef)[$staged](fg:#282c34 bg:#51afef)[$renamed](fg:#282c34 bg:#51afef)[](fg:#51afef bg:none) "
-conflicted = "="
-ahead =	" ⇡${count}"
-behind = " ⇣${count}"
-diverged = " ⇕⇡${ahead_count}⇣${behind_count}"
-untracked = " ?${count}"
-modified = " !${count}"
-staged = " +${count}"
-renamed = " »${count}"
-deleted = " ✘${count}"
-style =	"red"
-disabled = false
+format     = "[](lavender_dark)[ ](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[( $conflicted)( $modified)( $untracked)( $staged)( $renamed)](fg:mantle bg:lavender)[](lavender)"
+conflicted = "=${count}"
+ahead      = "⇡${count}"
+behind     = "⇣${count}"
+diverged   = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked  = "?${count}"
+modified   = "!${count}"
+staged     = "+${count}"
+renamed    = "»${count}"
+deleted    = "✘${count}"
+
 
 [git_state]
-rebase = "REBASING"
-merge =	"MERGING"
-revert = "REVERTING"
-cherry_pick = "CHERRY-PICKING"
-bisect = "BISECTING"
-am = "AM"
+rebase       = "REBASING"
+merge        = "MERGING"
+revert       = "REVERTING"
+cherry_pick  = "CHERRY-PICKING"
+bisect       = "BISECTING"
+am           = "AM"
 am_or_rebase = "AM/REBASE"
-style =	"yellow"
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-disabled = false
+style        = "yellow"
+format       = "[](lavender_dark)[A](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[$progress_current/$progress_total](fg:mantle bg:lavender)[](lavender)"
 
-[hg_branch]
-symbol = ""
-style = "purple"
-format = "on [$symbol$branch]($style) "
-
-[docker_context]
-symbol = " "
 
 [python]
-# symbol = "👾"
 symbol = " "
-format = "[](fg:#7fa54c bg:none)[$symbol](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $version(\\($virtualenv\\))](fg:#282c34 bg:#98be65)[](fg:#98be65 bg:none) "
-# format = 'via [${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style) '
+format = "[](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version(\\($virtualenv\\))](fg:mantle bg:green)[](green)"
+
 
 [lua]
-# symbol = "🌙🌜"
-symbol = "🌙"
-format = "[](fg:#7fa54c bg:none)[$symbol](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $version](fg:#282c34 bg:#98be65)[](fg:#98be65 bg:none) "
+symbol = " "
+format = "[](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green)"
+
 
 [nodejs]
 disabled = true
@@ -128,5 +121,154 @@ disabled = true
 
 [golang]
 symbol = ' '
-format = "[](fg:#7fa54c bg:none)[$symbol](fg:#282c34 bg:#7fa54c)[](fg:#7fa54c bg:#98be65)[ $version](fg:#282c34 bg:#98be65)[](fg:#98be65 bg:none) "
+format = "[](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green)"
 
+
+
+[palettes.catppuccin_latte]
+rosewater = "#dc8a78"
+flamingo  = "#dd7878"
+pink      = "#ea76cb"
+mauve     = "#8839ef"
+red       = "#d20f39"
+maroon    = "#e64553"
+peach     = "#fe640b"
+yellow    = "#df8e1d"
+green     = "#40a02b"
+teal      = "#179299"
+sky       = "#04a5e5"
+sapphire  = "#209fb5"
+blue      = "#1e66f5"
+lavender  = "#7287fd"
+text      = "#4c4f69"
+subtext1  = "#5c5f77"
+subtext0  = "#6c6f85"
+overlay2  = "#7c7f93"
+overlay1  = "#8c8fa1"
+overlay0  = "#9ca0b0"
+surface2  = "#acb0be"
+surface1  = "#bcc0cc"
+surface0  = "#ccd0da"
+base      = "#eff1f5"
+mantle    = "#e6e9ef"
+crust     = "#dce0e8"
+
+[palettes.catppuccin_frappe]
+rosewater = "#f2d5cf"
+flamingo  = "#eebebe"
+pink      = "#f4b8e4"
+mauve     = "#ca9ee6"
+red       = "#e78284"
+maroon    = "#ea999c"
+peach     = "#ef9f76"
+yellow    = "#e5c890"
+green     = "#a6d189"
+teal      = "#81c8be"
+sky       = "#99d1db"
+sapphire  = "#85c1dc"
+blue      = "#8caaee"
+lavender  = "#babbf1"
+text      = "#c6d0f5"
+subtext1  = "#b5bfe2"
+subtext0  = "#a5adce"
+overlay2  = "#949cbb"
+overlay1  = "#838ba7"
+overlay0  = "#737994"
+surface2  = "#626880"
+surface1  = "#51576d"
+surface0  = "#414559"
+base      = "#303446"
+mantle    = "#292c3c"
+crust     = "#232634"
+
+[palettes.catppuccin_macchiato]
+rosewater = "#f4dbd6"
+flamingo  = "#f0c6c6"
+pink      = "#f5bde6"
+mauve     = "#c6a0f6"
+red       = "#ed8796"
+maroon    = "#ee99a0"
+peach     = "#f5a97f"
+yellow    = "#eed49f"
+green     = "#a6da95"
+teal      = "#8bd5ca"
+sky       = "#91d7e3"
+sapphire  = "#7dc4e4"
+blue      = "#8aadf4"
+lavender  = "#b7bdf8"
+text      = "#cad3f5"
+subtext1  = "#b8c0e0"
+subtext0  = "#a5adcb"
+overlay2  = "#939ab7"
+overlay1  = "#8087a2"
+overlay0  = "#6e738d"
+surface2  = "#5b6078"
+surface1  = "#494d64"
+surface0  = "#363a4f"
+base      = "#24273a"
+mantle    = "#1e2030"
+crust     = "#181926"
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo  = "#f2cdcd"
+pink      = "#f5c2e7"
+mauve     = "#cba6f7"
+red       = "#f38ba8"
+maroon    = "#eba0ac"
+peach     = "#fab387"
+yellow    = "#f9e2af"
+green     = "#a6e3a1"
+teal      = "#94e2d5"
+sky       = "#89dceb"
+sapphire  = "#74c7ec"
+blue      = "#89b4fa"
+lavender  = "#b4befe"
+text      = "#cdd6f4"
+subtext1  = "#bac2de"
+subtext0  = "#a6adc8"
+overlay2  = "#9399b2"
+overlay1  = "#7f849c"
+overlay0  = "#6c7086"
+surface2  = "#585b70"
+surface1  = "#45475a"
+surface0  = "#313244"
+base      = "#1e1e2e"
+mantle    = "#181825"
+crust     = "#11111b"
+
+[palettes.catppuccin_macchiato_custom]
+rosewater     = "#f4dbd6"
+flamingo      = "#f0c6c6"
+pink          = "#f5bde6"
+mauve         = "#c6a0f6"
+purple        = "#a9a1e1"
+mauve_dark    = "#a879e6"
+red           = "#ed8796"
+red_dark      = "#e66e6e"
+maroon        = "#ee99a0"
+peach         = "#f5a97f"
+yellow        = "#eed49f"
+yellow_dark   = "#d8b07e"
+green         = "#a6da95"
+green_dark    = "#86ba75"
+teal          = "#8bd5ca"
+sky           = "#91d7e3"
+sky_dark      = "#7cc1d3"
+sapphire      = "#7dc4e4"
+blue          = "#8aadf4"
+blue_dark     = "#6c9ceb"
+lavender      = "#b7bdf8"
+lavender_dark = "#9ba8f3"
+text          = "#cad3f5"
+subtext1      = "#b8c0e0"
+subtext0      = "#a5adcb"
+overlay2      = "#939ab7"
+overlay1      = "#8087a2"
+overlay0      = "#6e738d"
+surface2      = "#5b6078"
+surface1      = "#494d64"
+surface0      = "#363a4f"
+base          = "#24273a"
+mantle        = "#1e2030"
+crust         = "#181926"
