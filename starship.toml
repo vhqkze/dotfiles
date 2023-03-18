@@ -77,11 +77,11 @@ format = "[](lavender_dark)[$symbol](fg:mantle bg:lavender_dark)[](fg:lave
 
 [git_commit]
 tag_symbol = ' '
-format="[](lavender_dark)[$tag_symbol](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[ $hash $tag](fg:mantle bg:lavender)[](lavender)"
+format="[](lavender_dark)[ ](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[( $hash)( $tag)](fg:mantle bg:lavender)[](lavender)"
 
 
 [git_status]
-format     = "[](lavender_dark)[ ](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[( $conflicted)( $modified)( $untracked)( $staged)( $renamed)](fg:mantle bg:lavender)[](lavender)"
+format     = "([](lavender_dark)[ ](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[( $conflicted)( $modified)( $untracked)( $staged)( $renamed)](fg:mantle bg:lavender)[](lavender))"
 conflicted = "=${count}"
 ahead      = "⇡${count}"
 behind     = "⇣${count}"
@@ -107,12 +107,12 @@ format       = "[](lavender_dark)[A](fg:mantle bg:lavender_dark)[](fg:lave
 
 [python]
 symbol = " "
-format = "[](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version(\\($virtualenv\\))](fg:mantle bg:green)[](green)"
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version(\\($virtualenv\\))](fg:mantle bg:green)[](green))"
 
 
 [lua]
 symbol = " "
-format = "[](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green)"
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 
 [nodejs]
@@ -121,7 +121,7 @@ disabled = true
 
 [golang]
 symbol = ' '
-format = "[](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green)"
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 
 
