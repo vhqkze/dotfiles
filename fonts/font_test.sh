@@ -44,6 +44,8 @@ printf "\e[10mPrimary (default) font             ABCDEFGHIJKLMNOPQRSTUVWXYZabced
 printf "\e[21mDoubly underlined; or: not bold    ABCDEFGHIJKLMNOPQRSTUVWXYZabcedefghijklmnopqrstuvwxyz0123456789\e[0m\n"
 
 printf "\e[4:3mundercurls                         ABCDEFGHIJKLMNOPQRSTUVWXYZabcedefghijklmnopqrstuvwxyz0123456789\e[0m\n"
+printf "\e[4:4mdotted underline(kitty)            ABCDEFGHIJKLMNOPQRSTUVWXYZabcedefghijklmnopqrstuvwxyz0123456789\e[0m\n"
+printf "\e[4:5mdashed underline(kitty)            ABCDEFGHIJKLMNOPQRSTUVWXYZabcedefghijklmnopqrstuvwxyz0123456789\e[0m\n"
 
 
 echo
