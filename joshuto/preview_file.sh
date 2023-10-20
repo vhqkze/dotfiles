@@ -220,8 +220,7 @@ handle_mime() {
         ;;
 
     text/* | */xml)
-        bat -pp --color=always --tabs=4 --line-range="1:${PREVIEW_HEIGHT}" "${FILE_PATH}" && exit 0
-        head -n "${PREVIEW_HEIGHT}" "${FILE_PATH}" && exit 0
+        bat -pp --color=always --tabs=4 "${FILE_PATH}" && exit 0
         cat "${FILE_PATH}" && exit 0
         exit 1
         ;;
@@ -289,7 +288,7 @@ handle_mime() {
         echo "Frame Rate: $frame_rate"
         cache_file="$JOSHUTO_CACHE_DIR/$(get_md5 "$FILE_PATH").png"
         if [ ! -f "$cache_file" ]; then
-            ffmpeg -ss 00:00:30 -i "${FILE_PATH}" -vf 'scale=960:960:force_original_aspect_ratio=decrease' -vframes 1 "$cache_file"
+            ffmpeg -ss 00:00:10 -i "${FILE_PATH}" -vf 'scale=960:960:force_original_aspect_ratio=decrease' -vframes 1 "$cache_file"
         fi
         exit 5
         ;;
