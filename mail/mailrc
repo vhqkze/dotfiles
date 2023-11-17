@@ -1,0 +1,5 @@
+set PAGER='n +Man! -c "set statuscolumn=" -c "set signcolumn=no" -c "set ft=mail" --'
+set EDITOR='n -c "set ft=mail" --'
+set VISUAL='n -c "set ft=mail" --'
+set screen=20
+ignore Return-Path x-original-to delivered-to received x-cron-env message-id
