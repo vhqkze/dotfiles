@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+KITTY_BACKUP_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/kitty"
+if [[ ! -d "$KITTY_BACKUP_DIR" ]]; then
+    mkdir -p "$KITTY_BACKUP_DIR"
+fi
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "kitty_save [alias]"
+    exit
+fi
+
+KITTY_BACKUP_FILE="$KITTY_BACKUP_DIR/${1:-kitty_$(date +%Y%m%d_%H%M%S)}"
+if [[ -f "$KITTY_BACKUP_FILE" ]]; then
+    read -q "?$KITTY_BACKUP_FILE already exists. Overwrite? [y/N] "
+    if [[ ! "$REPLY" =~ "[Yy]" ]]; then
+        exit
+    fi
+    echo
+fi
+echo "save to: $KITTY_BACKUP_FILE"
+kitty @ ls >"$KITTY_BACKUP_FILE"

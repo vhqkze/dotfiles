@@ -1,0 +1,145 @@
+#!/usr/bin/env zsh
+
+KITTY_BACKUP_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/kitty"
+if [[ ! -d "$KITTY_BACKUP_DIR" ]]; then
+    mkdir -p "$KITTY_BACKUP_DIR"
+fi
+
+CURRENT_WINDOW_PID=$(kitten @ ls | jq -r '.[].tabs|.[].windows|.[]|select(.is_self==true).pid')
+
+function get_latest_restore_file {
+    restore_file=$(ls -1 -t -r -p "$KITTY_BACKUP_DIR" | grep -v / | tail -n 1)
+    if [[ -z "$restore_file" ]]; then
+        echo "no restore file found" >&2
+        exit 1
+    fi
+    KITTY_BACKUP_FILE="$KITTY_BACKUP_DIR/$restore_file"
+}
+
+function list_restore_files {
+    if command -v eza >/dev/null 2>&1; then
+        eza -l -f -t modified -s modified --time-style '+%Y-%m-%d %H:%M:%S' --no-permissions --no-filesize --no-user -h "$KITTY_BACKUP_DIR"
+    elif command -v exa >/dev/null 2>&1; then
+        exa -l -t modified -s modified --time-style long-iso --no-permissions --no-filesize --no-user -F -h "$KITTY_BACKUP_DIR" | grep -v /
+    else
+        ls -l -t -r -p "$KITTY_BACKUP_DIR" | tail -n +2 | grep -v / | awk '{$1=""; $2=""; $3=""; $4=""; $5=""; print $0}'
+    fi
+}
+
+function preview {
+    jq -r '.[]|tojson' <"$1" | while read -r os_window; do
+        os_window_id=$(echo "$os_window" | jq -r '.id')
+        exist_os_window=0
+        echo "os_window"
+        echo "$os_window" | jq -r ".tabs[]|tojson" | while read -r tab; do
+            tab_id=$(echo "$tab" | jq -r '.id')
+            tab_title=$(echo "$tab" | jq -r '.title')
+            echo -e "\ttab: $tab_title"
+            echo "$tab" | jq -r '.windows[]|tojson' | while read -r window; do
+                window_id=$(echo "$window" | jq -r '.id')
+                window_title=$(echo "$window" | jq -r '.title')
+                window_pid=$(echo "$window" | jq -r '.pid')
+                window_cwd=$(echo "$window" | jq -r ".foreground_processes[]|select(.pid==$window_pid).cwd")
+                echo -e "\t\twindow: $window_cwd"
+            done
+        done
+    done
+}
+
+function restore_layout {
+    jq -r '.[]|tojson' <"$1" | while read -r os_window; do
+        os_window_id=$(echo "$os_window" | jq -r '.id')
+        os_window_opacity=$(echo "$os_window" | jq -r '.background_opacity')
+        exist_os_window=0
+        echo "$os_window" | jq -r ".tabs[]|tojson" | while read -r tab; do
+            tab_id=$(echo "$tab" | jq -r '.id')
+            tab_title=$(echo "$tab" | jq -r '.title')
+            tab_layout=$(echo "$tab" | jq -r '.layout')
+            exist_tab=0
+            echo "$tab" | jq -r '.windows[]|tojson' | while read -r window; do
+                window_id=$(echo "$window" | jq -r '.id')
+                window_title=$(echo "$window" | jq -r '.title')
+                window_pid=$(echo "$window" | jq -r '.pid')
+                window_cwd=$(echo "$window" | jq -r ".foreground_processes[]|select(.pid==$window_pid).cwd")
+                if ((exist_os_window == 0)); then
+                    new_window_id=$(kitten @ launch --type=os-window --keep-focus --cwd="$window_cwd" --tab-title="$tab_title" --window-title="$window_title")
+                    new_window_pid=$(kitten @ ls | jq -r ".[].tabs|.[].windows|.[]|select(.id==$new_window_id).pid")
+                    kitten @ set-background-opacity --match "pid:$new_window_pid" "$os_window_opacity"
+                    exist_os_window=1
+                    exist_tab=1
+                    echo "创建系统窗口: $new_window_id tab_title: $tab_title, window_title: $window_title, cwd: $window_cwd"
+                elif ((exist_tab == 0)); then
+                    new_window_id=$(kitten @ launch --match "pid:$new_window_pid" --type=tab --keep-focus --cwd="$window_cwd" --tab-title="$tab_title" --window-title="$window_title")
+                    new_window_pid=$(kitten @ ls | jq -r ".[].tabs|.[].windows|.[]|select(.id==$new_window_id).pid")
+                    exist_tab=1
+                    echo "创建tab: $new_window_id tab_title: $tab_title, window_title: $window_title, cwd: $window_cwd"
+                else
+                    new_window_id=$(kitten @ launch --match "pid:$new_window_pid" --type=window --keep-focus --cwd="$window_cwd" --window-title="$window_title")
+                    new_window_pid=$(kitten @ ls | jq -r ".[].tabs|.[].windows|.[]|select(.id==$new_window_id).pid")
+                    kitten @ goto-layout --match "pid:$new_window_pid" "$tab_layout"
+                    echo "创建窗口: $new_window_id tab_title: $tab_title, window_title: $window_title, cwd: $window_cwd"
+                fi
+            done
+        done
+    done
+}
+
+function show_help {
+    echo "用法: kitty_store [选项]"
+    echo "选项:"
+    echo "-h, --help           显示帮助信息"
+    echo "-l, --list           显示可用的恢复文件"
+    echo "-f, --restore-file   指定文件，未指定时使用最新的"
+    echo "-n, --not-close      恢复后不要关闭当前窗口(默认会关闭当前窗口)"
+    echo "-r, --restore        执行恢复"
+    echo
+    echo "使用文件恢复kitty窗口，如果没有指定文件，则从KITTY_BACKUP_DIR中获取最新的文件"
+    echo "如果没有带 -r 或 --restore，则不会恢复，只会预览文件对应的窗口布局"
+}
+
+while (($#)); do
+    case $1 in
+    -l | --list)
+        list_restore_files
+        exit
+        ;;
+    -f | --restore-file)
+        restore_file=$2
+        shift
+        ;;
+    -h | --help)
+        show_help
+        exit
+        ;;
+    -n | --not-close)
+        not_close=1
+        ;;
+    -r | --restore)
+        restore=true
+        ;;
+    esac
+    shift
+done
+
+if [[ -z "$restore_file" ]]; then
+    get_latest_restore_file
+elif [[ -f "$KITTY_BACKUP_DIR/$restore_file" ]]; then
+    KITTY_BACKUP_FILE="$KITTY_BACKUP_DIR/$restore_file"
+elif [[ -f "$restore_file" ]]; then
+    KITTY_BACKUP_FILE="$restore_file"
+else
+    echo "no restore file found" >&2
+    exit 1
+fi
+
+if [[ "$restore" != "true" ]]; then
+    echo "Preview: $KITTY_BACKUP_FILE"
+    preview "$KITTY_BACKUP_FILE"
+    exit
+else
+    echo "Restore: $KITTY_BACKUP_FILE"
+    restore_layout "$KITTY_BACKUP_FILE"
+    if [[ -z "$not_close" ]]; then
+        kitten @ close-window --match "pid:$CURRENT_WINDOW_PID"
+    fi
+fi
