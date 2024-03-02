@@ -8,12 +8,16 @@ sort_dir_first = true
 linemode       = "size"
 show_hidden    = true
 show_symlink   = true
+scrolloff      = 5
 
 [preview]
-tab_size   = 4
-max_width  = 900
-max_height = 1200
-cache_dir  = ""
+tab_size        = 4
+max_width       = 900
+max_height      = 1200
+cache_dir       = ""
+image_filter    = "triangle"
+image_quality   = 75
+sixel_fraction  = 15
 ueberzug_scale  = 1
 ueberzug_offset = [ 0, 0, 0, 0 ]
 
@@ -37,7 +41,8 @@ extract = [
 	{ exec = 'unar "%1"', desc = "Extract here", for = "windows" },
 ]
 play = [
-	{ exec = 'mpv "$@"', orphan = true, for = "unix" },
+	{ exec = 'mpv "$@"', orphan = true, for = "linux" },
+	{ exec = 'open -a iina -- "$@"', orphan = true, for = "macos" },
 	{ exec = 'mpv "%1"', orphan = true, for = "windows" },
 	{ exec = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info", for = "unix" },
 ]
@@ -112,6 +117,8 @@ previewers = [
 	{ mime = "application/x-7z-compressed", exec = "archive" },
 	{ mime = "application/x-rar",           exec = "archive" },
 	{ mime = "application/xz",              exec = "archive" },
+	# Fallback
+	{ name = "*", exec = "file" },
 ]
 
 [input]
@@ -151,7 +158,7 @@ find_origin = "top-center"
 find_offset = [ 0, 2, 50, 3 ]
 
 # search
-search_title  = "Search:"
+search_title  = "Search via {n}:"
 search_origin = "top-center"
 search_offset = [ 0, 2, 50, 3 ]
 
@@ -174,6 +181,11 @@ quit_offset = [ 0, 2, 50, 3 ]
 open_title  = "Open with:"
 open_origin = "hovered"
 open_offset = [ 0, 1, 50, 7 ]
+
+[which]
+sort_by        = "none"
+sort_sensitive = false
+sort_reverse   = false
 
 [log]
 enabled = false
