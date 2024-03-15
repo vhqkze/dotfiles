@@ -1,0 +1,60 @@
+#!/usr/bin/env zsh
+
+# xdg
+# see: https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+if [ ! -w "${XDG_RUNTIME_DIR:="/run/user/$UID"}" ]; then
+    XDG_RUNTIME_DIR=/tmp
+fi
+export XDG_RUNTIME_DIR
+
+# zsh
+export ZSH="$XDG_DATA_HOME/oh-my-zsh"
+# mail
+export MAILRC="$HOME/.config/mail/mailrc"
+# gpg
+GPG_TTY=$(tty)
+export GPG_TTY
+
+# rust
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+# go
+export GOPATH="$XDG_DATA_HOME/go"
+export GOPROXY=https://proxy.golang.com.cn,direct
+# gradle
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+# android
+export ANDROID_USER_HOME="$XDG_DATA_HOME/android"
+# npm
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+export NPM_CONFIG_CACHE=$XDG_CACHE_HOME/npm
+export NPM_CONFIG_TMP=$XDG_RUNTIME_DIR/npm
+# python
+export PYTHONPATH=".:$PYTHONPATH"
+
+# path
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$CARGO_HOME/bin"
+temppath=
+for p in $path; do
+    if [[ -d "$p" ]]; then
+        temppath+=":$p"
+    fi
+done
+export PATH=${temppath:1}
+unset temppath p
+typeset -U path
+
+# other
+export EDITOR=n
+export VISUAL=n
+export MANPAGER='n +Man! -c "set statuscolumn=" -c "set signcolumn=no" --'
+
+if [[ -f "$HOME/.config/zsh/config/secret" ]]; then
+    source "$HOME/.config/zsh/config/secret"
+fi
