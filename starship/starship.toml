@@ -1,8 +1,9 @@
+#:schema https://starship.rs/config-schema.json
 # Inserts a blank line between shell prompts
 add_newline = true
 
 
-format = "( $username)( $directory)( $git_branch)( $git_commit)( $git_state)( $git_status)( $golang)( $java)( $lua)( $nodejs)( $python)( $custom)( $jobs)( $battery)( $cmd_duration)$fill$time $line_break( $status) $character"
+format = "( $username)( $directory)( $git_branch)( $git_commit)( $git_state)( $git_status)( $golang)( $java)( $lua)( $nodejs)( $python)( $rust)( $custom)( $jobs)( $battery)( $cmd_duration)$fill$time $line_break( $status) $character"
 
 # format = " $character"
 
@@ -29,7 +30,7 @@ threshold=25
 [character]
 success_symbol = "[ ](purple)"
 error_symbol = "[ ](red)"
-vicmd_symbol = "[ ](green)"
+vimcmd_symbol = "[ ](green)"
 
 
 [directory]
@@ -114,13 +115,18 @@ format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dar
 symbol = " "
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
+[rust]
+symbol = "🦀"
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
+
 
 [nodejs]
-disabled = true
+symbol = " "
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 
 [golang]
-symbol = ' '
+symbol = '󰟓 '
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 

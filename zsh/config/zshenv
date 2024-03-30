@@ -18,6 +18,8 @@ export MAILRC="$HOME/.config/mail/mailrc"
 # gpg
 GPG_TTY=$(tty)
 export GPG_TTY
+# starship
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 
 # rust
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
