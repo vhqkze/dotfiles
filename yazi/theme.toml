@@ -65,10 +65,10 @@ progress_normal = { fg = "blue", bg = "black" }
 progress_error  = { fg = "red", bg = "black" }
 
 # Permissions
-permissions_t = { fg = "lightgreen" }
-permissions_r = { fg = "lightyellow" }
-permissions_w = { fg = "lightred" }
-permissions_x = { fg = "lightcyan" }
+permissions_t = { fg = "green" }
+permissions_r = { fg = "yellow" }
+permissions_w = { fg = "red" }
+permissions_x = { fg = "cyan" }
 permissions_s = { fg = "darkgray" }
 
 # : }}}
@@ -78,7 +78,7 @@ permissions_s = { fg = "darkgray" }
 
 [select]
 border   = { fg = "blue" }
-active   = { fg = "magenta" }
+active   = { fg = "magenta", bold = true }
 inactive = {}
 
 # : }}}
@@ -99,7 +99,7 @@ selected = { reversed = true }
 
 [completion]
 border   = { fg = "blue" }
-active   = { bg = "darkgray" }
+active   = { reversed = true }
 inactive = {}
 
 # Icons
@@ -138,7 +138,7 @@ separator_style = { fg = "darkgray" }
 
 [help]
 on      = { fg = "magenta" }
-exec    = { fg = "cyan" }
+run     = { fg = "cyan" }
 desc    = { fg = "gray" }
 hovered = { bg = "darkgray", bold = true }
 footer  = { fg = "black", bg = "white" }
@@ -169,7 +169,7 @@ rules = [
 	# Images
 	{ mime = "image/*", fg = "cyan" },
 
-	# Videos
+	# Media
 	{ mime = "video/*", fg = "yellow" },
 	{ mime = "audio/*", fg = "yellow" },
 
@@ -181,7 +181,7 @@ rules = [
 	{ mime = "application/x-bzip2",         fg = "magenta" },
 	{ mime = "application/x-7z-compressed", fg = "magenta" },
 	{ mime = "application/x-rar",           fg = "magenta" },
-	{ mime = "application/xz",              fg = "magenta" },
+	{ mime = "application/x-xz",            fg = "magenta" },
 
 	# Documents
 	{ mime = "application/doc",   fg = "green" },
