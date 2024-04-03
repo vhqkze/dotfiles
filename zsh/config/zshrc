@@ -129,6 +129,11 @@ function zvm_config() {
     ZVM_LAZY_KEYBINDINGS=true
     bindkey -r '^[h'
     bindkey -r '^[l'
+    ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+    ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+    ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+    ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+    ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
 }
 # function zvm_after_init() {
 #     bindkey '^[[A' up-line-or-beginning-search
