@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+SPACE_ID=$1
+YABAI_DB="${XDG_DATA_HOME:-$HOME/.local/share}/yabai/yabai.db"
+
+SPACE_INFO=$(yabai -m query --spaces --space "$SPACE_ID")
+[[ -z "$SPACE_INFO" ]] && exit
+[[ "$(echo "$SPACE_INFO" | jq -r '.["is-native-fullscreen"]')" == "true" ]] && exit
+
+[[ -z "$SPACE_ID" ]] && SPACE_ID=$(echo "$SPACE_INFO" | jq -r '.index')
+space_windows=$(echo "$SPACE_INFO" | jq -r '.windows|join(",")')
+last_window_id=$(sqlite3 "$YABAI_DB" "SELECT id FROM windows where space=$SPACE_ID and is_minimized=0 and is_destroyed=0 and id in ($space_windows) ORDER BY focus_time DESC LIMIT 1")
+[[ -z "$last_window_id" ]] && exit
+yabai -m window --focus "$last_window_id"
