@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 # shellcheck disable=SC2034
 
 # Color Palette

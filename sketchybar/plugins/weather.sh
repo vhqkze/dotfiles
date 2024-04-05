@@ -5,7 +5,6 @@
 # verify your email
 # go to https://www.weatherapi.com/my/ and put the key in the code on the line that starts with API_KEY=
 
-
 API_KEY=$WEATHER_API_KEY # insert api key here
 location="$(curl -s ipinfo.io/loc)"
 
@@ -112,14 +111,82 @@ weather_icons_night=(
     [1282]=  # Moderate or heavy snow with thunder/395
 )
 
-data=$(curl -s "http://api.weatherapi.com/v1/current.json?key=$API_KEY&q=$location")
-echo "$data"
-condition=$(echo "$data" | jq -r '.current.condition.code')
-temp=$(echo "$data" | jq -r '.current.temp_c')
-feelslike=$(echo "$data" | jq -r '.current.feelslike_c')
-humidity=$(echo "$data" | jq -r '.current.humidity')
-is_day=$(echo "$data" | jq -r '.current.is_day')
+function get_day {
+    local weather_info
+    weather_info="$1"
+    condition_code=$(echo "$weather_info" | jq -r '.condition.code')
+    condition_text=$(echo "$weather_info" | jq -r '.condition.text')
+    maxtemp=$(echo "$weather_info" | jq -r '.maxtemp_c')
+    mintemp=$(echo "$weather_info" | jq -r '.mintemp_c')
+    avgtemp=$(echo "$weather_info" | jq -r '.avgtemp_c')
+    daily_chance_of_rain=$(echo "$weather_info" | jq -r '.daily_chance_of_rain')
+    daily_chance_of_snow=$(echo "$weather_info" | jq -r '.daily_chance_of_snow')
+    icon=${weather_icons_day[$condition_code]}
+    label="$condition_text ${mintemp}°C~${maxtemp}°C, 平均${avgtemp}°C"
+    ((daily_chance_of_rain > 0)) && label="$label, 降雨概率 ${daily_chance_of_rain}%"
+    ((daily_chance_of_snow > 0)) && label="$label, 下雪概率 ${daily_chance_of_snow}%"
+}
 
-[ "$is_day" = "1" ] && icon=${weather_icons_day[$condition]} || icon=${weather_icons_night[$condition]}
+function get_label {
+    local weather_info
+    weather_info="$1"
+    condition_code=$(echo "$weather_info" | jq -r '.condition.code')
+    condition_text=$(echo "$weather_info" | jq -r '.condition.text')
+    temp=$(echo "$weather_info" | jq -r '.temp_c')
+    fellslike=$(echo "$weather_info" | jq -r '.feelslike_c')
+    humidity=$(echo "$weather_info" | jq -r '.humidity')
+    is_day=$(echo "$weather_info" | jq -r '.is_day')
+    chance_of_rain=$(echo "$weather_info" | jq -r 'if .chance_of_rain == null then 0 else .chance_of_rain end')
+    chance_of_snow=$(echo "$weather_info" | jq -r 'if .chance_of_snow == null then 0 else .chance_of_snow end')
+    ((is_day == 1)) && icon=${weather_icons_day[$condition_code]} || icon=${weather_icons_night[$condition_code]}
+    label="$condition_text ${temp}°C 体感 ${fellslike}°C"
+    echo "降雨概率: $chance_of_rain"
+    ((chance_of_rain > 0)) && label="$label, 降雨概率 ${chance_of_rain}%"
+    ((chance_of_snow > 0)) && label="$label, 下雪概率 ${chance_of_snow}%"
+}
 
-sketchybar --set weather icon="$icon" label="${temp}°C"
+function update_weather {
+    data=$(curl -s "http://api.weatherapi.com/v1/forecast.json?key=$API_KEY&q=$location&lang=zh&days=2")
+    today_date=$(date +%F)
+    tomorrow_date=$(date -v +1d +%F)
+    check_in_time="09:00"
+
+    today_data=$(echo "$data" | jq -r ".forecast.forecastday[]|select(.date==\"$today_date\")|.day")
+    get_day "$today_data"
+    sketchybar --set weather.today icon="$icon" label="今天 $label"
+
+    (($(date +%u) == 5)) && check_out_time="20:00" || check_out_time="22:00"
+    current_data=$(echo "$data" | jq -r '.current')
+    get_label "$current_data"
+    sketchybar --set weather icon="$icon" label="${temp}°C"
+    sketchybar --set weather.current icon="$icon" label="当前 $label"
+
+    today2_data=$(echo "$data" | jq -r ".forecast.forecastday[]|select(.date==\"$today_date\")|.hour[]|select(.time==\"$today_date $check_out_time\")")
+    get_label "$today2_data"
+    sketchybar --set weather.today2 icon="$icon" label="今晚 $label"
+
+    tomorrow_data=$(echo "$data" | jq -r ".forecast.forecastday[]|select(.date==\"$tomorrow_date\")|.day")
+    get_day "$tomorrow_data"
+    sketchybar --set weather.tomorrow icon="$icon" label="明天 $label"
+
+    (($(date +%u) == 4)) && check_out_time="20:00" || check_out_time="22:00"
+    tomorrow1_data=$(echo "$data" | jq -r ".forecast.forecastday[]|select(.date==\"$tomorrow_date\")|.hour[]|select(.time==\"$tomorrow_date $check_in_time\")")
+    get_label "$tomorrow1_data"
+    sketchybar --set weather.tomorrow1 icon="$icon" label="明早 $label"
+
+    tomorrow2_data=$(echo "$data" | jq -r ".forecast.forecastday[]|select(.date==\"$tomorrow_date\")|.hour[]|select(.time==\"$tomorrow_date $check_out_time\")")
+    get_label "$tomorrow2_data"
+    sketchybar --set weather.tomorrow2 icon="$icon" label="明晚 $label"
+}
+
+case "$SENDER" in
+"mouse.clicked")
+    sketchybar --set "$NAME" popup.drawing=toggle #Inactive
+    ;;
+"mouse.exited" | "mouse.exited.global")
+    sketchybar --set "$NAME" popup.drawing=off #Inactive
+    ;;
+*)
+    update_weather
+    ;;
+esac

@@ -11,10 +11,9 @@ task_config=(
     background.color=0xffdbc597
     update_freq=120
     script="$PLUGIN_DIR/task.sh"
-    click_script="sketchybar --set task popup.drawing=toggle"
 )
 
 sketchybar --add event task_update \
            --add item  task right \
            --set       task "${task_config[@]}" \
-           --subscribe task mouse.exited mouse.exited.global task_update mouse.entered
+           --subscribe task mouse.exited mouse.exited.global task_update mouse.clicked

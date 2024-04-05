@@ -24,7 +24,7 @@ for i in "${!SPACE_ICONS[@]}"; do
         --set space.$space_id "${space_config[@]}" \
         associated_space=$space_id \
         icon="${SPACE_ICONS[i]}" \
-        click_script='yabai -m space --focus $SID 2>/dev/null'
+        --subscribe space.$space_id mouse.clicked
 done
 
 separator_config=(

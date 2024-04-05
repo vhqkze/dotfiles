@@ -8,8 +8,7 @@ yabai=(
     associated_display=active
 )
 
-sketchybar --add event window_focused \
-    --add event window_resized \
+sketchybar --add event window_state_changed \
     --add item yabai left \
     --set yabai "${yabai[@]}" \
-    --subscribe yabai window_focused mouse.clicked window_resized
+    --subscribe yabai mouse.clicked front_app_switched window_state_changed

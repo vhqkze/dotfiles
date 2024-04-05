@@ -6,13 +6,12 @@ set_system_status() {
     MUTED=$(osascript -e "output muted of (get volume settings)")
     local ICON
     current_device=$(system_profiler SPAudioDataType -json | jq -r '.SPAudioDataType.[]."_items".[]|select(.coreaudio_default_audio_output_device=="spaudio_yes")."_name"')
-    echo "当前设备: $AUDIODEVICE"
+    echo "当前设备: $current_device"
     if echo "$current_device" | rg -qi 'airpods pro'; then
         ICON="$ICON_AIRPODS_PRO"
     else
-        if [[ "$MUTED" == "true" ]]; then
+        if [[ "$MUTED" == "true" || $VOLUME -eq 1 ]]; then
             ICON="$ICON_SPEAKER_0"
-            VOLUME=0
         elif [[ $VOLUME -gt 66 ]]; then
             ICON="$ICON_SPEAKER_3"
         elif [[ $VOLUME -gt 33 ]]; then
@@ -61,7 +60,7 @@ scroll_memory() {
 }
 
 scroll_disk() {
-    remain=$(df -H | grep -E '^(/dev/disk1s1).' | awk '{printf("%sB"), $4}')
+    remain=$(df -H | grep -E '^(/dev/disk1s1).' | awk '{print $4}')
     percent_disk=$(df -H | grep -E '^(/dev/disk1s1).' | awk '{ print substr($5, 1, length($5) - 1) }')
     if [[ $percent_disk -lt 70 ]]; then
         percent_color=70
@@ -93,9 +92,8 @@ scroll_sound() {
     VOLUME=$(osascript -e "output volume of (get volume settings)")
     MUTED=$(osascript -e "output muted of (get volume settings)")
     local ICON
-    if [[ $MUTED != "false" ]]; then
+    if [[ "$MUTED" == "true" || $VOLUME -eq 1 ]]; then
         ICON="$ICON_SPEAKER_0"
-        VOLUME=0
     elif [[ $VOLUME -gt 66 ]]; then
         ICON="$ICON_SPEAKER_3"
     elif [[ $VOLUME -gt 33 ]]; then

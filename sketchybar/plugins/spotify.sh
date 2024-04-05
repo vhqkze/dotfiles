@@ -93,21 +93,9 @@ update() {
     if [[ $TRACKID == "null" ]]; then
         TRACKID=$(osascript -e 'tell application "Spotify" to get id of the current track' | awk -F ":" '{ print($3) }')
     fi
-    if echo "$TRACK" | rg -q '[a-zA-Z0-9]'; then
-        TRACK=$(echo "$TRACK" | sed 's/\(.\{17\}\).*/\1.../')
-    else  # 包含中文
-        TRACK=$(echo "$TRACK" | sed 's/\(.\{10\}\).*/\1.../')
-    fi
-    if echo "$ARTIST" | rg -q '[a-zA-Z0-9]'; then
-        ARTIST=$(echo "$ARTIST" | sed 's/\(.\{20\}\).*/\1.../')
-    else  # 包含中文
-        ARTIST=$(echo "$ARTIST" | sed 's/\(.\{11\}\).*/\1.../')
-    fi
-    if echo "$ALBUM" | rg -q '[a-zA-Z0-9]'; then
-        ALBUM=$(echo "$ALBUM" | sed 's/\(.\{20\}\).*/\1.../')
-    else  # 包含中文
-        ALBUM=$(echo "$ALBUM" | sed 's/\(.\{11\}\).*/\1.../')
-    fi
+    TRACK=$(echo -n "$TRACK" | fold -w 17 | perl -pe 's/\n/􀑪/g' | perl -pe 's/􀑪.*/.../g')
+    ARTIST=$(echo -n "$ARTIST" | fold -w 20 | perl -pe 's/\n/􀑪/g' | perl -pe 's/􀑪.*/.../g')
+    ALBUM=$(echo -n "$ALBUM" | fold -w 20 | perl -pe 's/\n/􀑪/g' | perl -pe 's/􀑪.*/.../g')
     COVER=$(osascript -e 'tell application "Spotify" to get artwork url of current track')
     SHUFFLE=$(osascript -e 'tell application "Spotify" to get shuffling')
     REPEAT=$(osascript -e 'tell application "Spotify" to get repeating')

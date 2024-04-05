@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 case "$SENDER" in
-"mouse.entered")
-    sketchybar --set "$NAME" popup.drawing=on
+"mouse.clicked")
+    sketchybar --set "$NAME" popup.drawing=toggle
     exit
     ;;
 "mouse.exited" | "mouse.exited.global")
@@ -32,8 +32,10 @@ set_task_stats() {
     local filter_status=$1
     local data="$(get_response "$filter_status")"
     total=$(echo "$data" | jq '.data.total')
-    if [[ "$total" -lt 1 ]]; then
-        return
+    ((total == 0)) && return
+    if ((task_total > 0)); then
+        sketchybar --add item task.split.$2 popup.task \
+            --set task.split.$2 label="   --------------------------------"
     fi
     task_total=$((task_total + total))
     for i in $(seq 1 "$total"); do
@@ -61,20 +63,8 @@ set_task_stats() {
 refresh() {
     task_total=0
     set_task_stats "未提测" "undo" "􀀀 "
-    if [[ $total -gt 0 ]]; then
-        sketchybar --add item task.split1 popup.task \
-            --set task.split1 label="   --------------------------------"
-    fi
     set_task_stats "已提测" "already" "􀍡 "
-    if [[ $total -gt 0 ]]; then
-        sketchybar --add item task.split2 popup.task \
-            --set task.split2 label="   --------------------------------"
-    fi
     set_task_stats "测试中" "testing" "􀈡 "
-    if [[ $total -gt 0 ]]; then
-        sketchybar --add item task.split3 popup.task \
-            --set task.split3 label="   --------------------------------"
-    fi
     set_task_stats "阻塞" "cannot" "􀜪 "
     sketchybar --set task label="$task_total"
 }
