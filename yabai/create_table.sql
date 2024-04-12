@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS windows (
     pid INTEGER,
     app TEXT,
     title TEXT,
+    scratchpad TEXT,
     frame TEXT,
     role TEXT,
     subrole TEXT,

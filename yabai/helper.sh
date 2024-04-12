@@ -117,6 +117,7 @@ case "$EVENT" in
     get_window_info
     filter_window
     record_window
+    sketchybar --trigger window_state_changed
     ;;
 "window_resized")
     get_window_info
