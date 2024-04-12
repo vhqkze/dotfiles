@@ -3,11 +3,9 @@
 weather_config=(
     icon.font.family="$FONT_NERD"
     icon.font.size=20
-    icon.color="$BLACK"
-    icon.padding_left=10
-    label.color="$BLACK"
-    label.padding_right=10
-    background.color=0xff7cd8c9
+    icon.color="$COLOR_MANTLE"
+    label.color="$COLOR_MANTLE"
+    background.color="$COLOR_SKY"
     script="$PLUGIN_DIR/weather.sh"
     update_freq=600
     popup.align=right
@@ -16,25 +14,15 @@ weather_config=(
 day_config=(
     icon.font.family="$FONT_NERD"
     icon.font.size=20
-    icon.color="$BLACK"
-    icon.padding_left=10
     icon.align=center
     icon.width=26
-    label.color="$BLACK"
-    label.padding_right=10
-    background.color=0xff2ca8c0
 )
 
 hour_config=(
     icon.font.family="$FONT_NERD"
     icon.font.size=20
-    icon.color="$BLACK"
-    icon.padding_left=10
     icon.align=center
     icon.width=26
-    label.color="$BLACK"
-    label.padding_right=10
-    background.color=0xff7cd8c9
 )
 
 sketchybar --add item weather right \

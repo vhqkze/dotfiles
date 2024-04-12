@@ -2,13 +2,12 @@
 
 task_config=(
     icon=􀤊
-    icon.color="$BLACK"
-    icon.padding_left=10
-    label.color="$BLACK"
+    icon.font.size=14
+    icon.color="$COLOR_MANTLE"
+    label.color="$COLOR_MANTLE"
     label.font.size=16
-    label.padding_right=10
     popup.align=right
-    background.color=0xffdbc597
+    background.color="$COLOR_YELLOW"
     update_freq=120
     script="$PLUGIN_DIR/task.sh"
 )

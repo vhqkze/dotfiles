@@ -4,7 +4,6 @@ front_app_config=(
     icon.drawing=on
     icon.background.drawing=on
     icon.background.image.scale=0.7
-    label.color="$WHITE"
     label.font.size=16
     associated_display=active
     script="$PLUGIN_DIR/front_app.sh"

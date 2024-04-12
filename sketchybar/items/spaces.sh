@@ -10,7 +10,7 @@ space_config=(
     icon.font.size=15.0
     icon.padding_left=0
     icon.padding_right=0
-    icon.highlight_color="$BLACK"
+    icon.highlight_color="$COLOR_MANTLE"
     label.drawing=off
     background.padding_left=8
     background.padding_right=8
@@ -29,11 +29,9 @@ done
 
 separator_config=(
     icon="$ICON_RIGHT"
-    background.padding_left=0
-    background.padding_right=10
     label.drawing=off
     associated_display=active
-    icon.color="$YELLOW"
+    icon.color="$COLOR_YELLOW"
 )
 
 sketchybar --add item separator left \

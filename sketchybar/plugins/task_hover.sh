@@ -4,11 +4,11 @@ source "$CONFIG_DIR/colors.sh"
 
 case "$SENDER" in
 "mouse.entered")
-    sketchybar --set "$NAME" background.color="$WHITE" icon.color="$BLACK" label.color="$BLACK"
+    sketchybar --set "$NAME" background.color="$COLOR_TEXT" icon.color="$COLOR_POPUP" label.color="$COLOR_POPUP"
     exit
     ;;
 "mouse.exited")
-    sketchybar --set "$NAME" background.color="$BLACK" icon.color="$WHITE" label.color="$WHITE"
+    sketchybar --set "$NAME" background.color="$COLOR_POPUP" icon.color="$COLOR_TEXT" label.color="$COLOR_TEXT"
     exit
     ;;
 esac

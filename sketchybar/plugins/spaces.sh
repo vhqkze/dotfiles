@@ -8,13 +8,13 @@ case "$SENDER" in
         current_layout=$(yabai -m query --spaces --space "$SID" | jq -r '.type')
         if [[ "$current_layout" == "bsp" ]]; then
             yabai -m space "$SID" --layout stack
-            [[ "$SELECTED" == "true" ]] && sketchybar --set "$NAME" background.color="$YELLOW"
+            [[ "$SELECTED" == "true" ]] && sketchybar --set "$NAME" background.color="$COLOR_YELLOW"
         elif [[ "$current_layout" == "stack" ]]; then
             yabai -m space "$SID" --layout float
-            [[ "$SELECTED" == "true" ]] && sketchybar --set "$NAME" background.color="$WHITE"
+            [[ "$SELECTED" == "true" ]] && sketchybar --set "$NAME" background.color="$COLOR_TEXT"
         else
             yabai -m space "$SID" --layout bsp
-            [[ "$SELECTED" == "true" ]] && sketchybar --set "$NAME" background.color="$BLUE"
+            [[ "$SELECTED" == "true" ]] && sketchybar --set "$NAME" background.color="$COLOR_BLUE"
         fi
         sketchybar --trigger window_state_changed
     fi
@@ -25,11 +25,11 @@ case "$SENDER" in
     if [[ "$SELECTED" == "true" ]]; then
         current_layout=$(yabai -m query --spaces --space "$SID" | jq -r '.type')
         if [[ "$current_layout" == "bsp" ]]; then
-            sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$BLUE"
+            sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$COLOR_BLUE"
         elif [[ "$current_layout" == "stack" ]]; then
-            sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$YELLOW"
+            sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$COLOR_YELLOW"
         else
-            sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$WHITE"
+            sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$COLOR_TEXT"
         fi
     else
         sketchybar --animate tanh 10 --set "$NAME" icon.highlight="$SELECTED" background.color="$BAR_COLOR"

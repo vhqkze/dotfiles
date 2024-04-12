@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 
 system_status=(
-    icon.color="$BLACK"
-    icon.padding_left=10
-    label.color="$BLACK"
-    label.padding_right=10
-    background.color="$GREEN"
+    icon.color="$COLOR_MANTLE"
+    label.color="$COLOR_MANTLE"
+    background.color="$COLOR_GREEN"
     script="$PLUGIN_DIR/system_status.sh"
 )
 
 
 common_config=(
     icon.width=30
+    icon.padding_left=0
     icon.align=center
     slider.width=200
     slider.percentage=0
@@ -22,7 +21,7 @@ common_config=(
     label=''
     label.width=45
     label.align=right
-    background.color=0xff24273a
+    background.color="$COLOR_POPUP"
     updates=when_shown
     script="$PLUGIN_DIR/system_status.sh"
 )
@@ -61,17 +60,10 @@ config_sound=(
 config_wifi=(
     # y_offset=-30
     icon="􀙇"
-    # width=0
-    # icon.font.size=26
-    # icon.width=50
-    # icon.padding_left=0
-    # icon.padding_right=3
     icon.align=center
     # icon.y_offset=10
     label.drawing=off
     # background.height=40
-    background.color=0xff999999
-    background.corner_radius=11
 )
 
 sketchybar --add item   system_status right \

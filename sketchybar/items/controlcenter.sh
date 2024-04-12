@@ -21,4 +21,4 @@ sketchybar --add alias "iStat Menus Status,com.bjango.istatmenus.network" right 
     width=78 click_script="osascript -e 'tell application \"System Events\" to tell process \"ControlCenter\" to click menu bar item 2 of menu bar 1'"
 
 sketchybar --add bracket controlcenter "控制中心,BentoBox" "istat.network" \
-    --set controlcenter background.color=0xff7aa1f6
+    --set controlcenter background.color="$COLOR_BLUE"

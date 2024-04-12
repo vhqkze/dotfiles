@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 yabai=(
-    icon.width=0
-    label.width=0
     script="$PLUGIN_DIR/yabai.sh"
-    icon.font.size=16.0
     associated_display=active
 )
 

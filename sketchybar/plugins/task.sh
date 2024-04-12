@@ -35,7 +35,7 @@ set_task_stats() {
     ((total == 0)) && return
     if ((task_total > 0)); then
         sketchybar --add item task.split.$2 popup.task \
-            --set task.split.$2 label="   --------------------------------"
+            --set task.split.$2 label="  ---------------------------------"
     fi
     task_total=$((task_total + total))
     for i in $(seq 1 "$total"); do
@@ -50,10 +50,10 @@ set_task_stats() {
             icon="$3" \
             icon.width=16 \
             icon.align=center \
-            label.padding_left=8 \
-            background.padding_left=10 \
-            background.padding_right=10 \
-            background.corner_radius=5 \
+            label.padding_left=10 \
+            background.padding_left=8 \
+            background.padding_right=8 \
+            background.corner_radius=8 \
             script="$CONFIG_DIR/plugins/task_hover.sh" \
             click_script="$CONFIG_DIR/plugins/open_url.sh \"$url\"" \
             --subscribe "task.$2$index" mouse.entered mouse.exited

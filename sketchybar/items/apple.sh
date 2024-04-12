@@ -2,12 +2,8 @@
 
 sketchybar --add item apple left                                                                     \
            --set      apple icon="$ICON_APPLE"                                                       \
-                            icon.font.size=16                                                        \
-                            icon.padding_left=5                                                      \
                             label.drawing=off                                                        \
                             script="$PLUGIN_DIR/apple.sh"                                            \
-                            popup.background.border_width=2                                          \
-                            popup.background.corner_radius=3                                         \
            --subscribe apple mouse.entered mouse.exited mouse.exited.global                          \
            --add item apple.preferences popup.apple                                                  \
            --set      apple.preferences icon="$ICON_PREFERENCES"                                     \
