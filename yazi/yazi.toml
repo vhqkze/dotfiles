@@ -5,6 +5,7 @@ sort_by        = "modified"
 sort_sensitive = true
 sort_reverse   = true
 sort_dir_first = true
+sort_translit  = false
 linemode       = "size"
 show_hidden    = true
 show_symlink   = true
@@ -33,6 +34,7 @@ open = [
 	{ run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]
 reveal = [
+	{ run = 'xdg-open "$(dirname "$0")"',            desc = "Reveal", for = "linux" },
 	{ run = 'open -R "$1"',                          desc = "Reveal", for = "macos" },
 	{ run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
@@ -42,9 +44,9 @@ extract = [
 	{ run = 'unar "%1"', desc = "Extract here", for = "windows" },
 ]
 play = [
-	{ run = 'mpv "$@"', orphan = true, for = "linux" },
+	{ run = 'mpv --force-window "$@"', orphan = true, for = "linux" },
 	{ run = 'open -a iina -- "$@"', orphan = true, for = "macos" },
-	{ run = 'mpv "%1"', orphan = true, for = "windows" },
+	{ run = 'mpv --force-window "%1"', orphan = true, for = "windows" },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
 
@@ -52,25 +54,18 @@ play = [
 rules = [
 	{ name = "*/", use = [ "edit", "open", "reveal" ] },
 
-	{ mime = "text/*",  use = [ "edit", "reveal" ] },
-	{ mime = "image/*", use = [ "open", "reveal" ] },
-	{ mime = "video/*", use = [ "play", "reveal" ] },
-	{ mime = "audio/*", use = [ "play", "reveal" ] },
-	{ mime = "inode/x-empty", use = [ "edit", "reveal" ] },
+	{ mime = "text/*",          use = [ "edit", "reveal" ] },
+	{ mime = "image/*",         use = [ "open", "reveal" ] },
+	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+	{ mime = "inode/x-empty",   use = [ "edit", "reveal" ] },
+
+	{ mime = "application/{,g}zip", use = [ "extract", "reveal" ] },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = [ "extract", "reveal" ] },
 
 	{ mime = "application/json", use = [ "edit", "reveal" ] },
 	{ mime = "*/javascript",     use = [ "edit", "reveal" ] },
 
-	{ mime = "application/zip",             use = [ "extract", "reveal" ] },
-	{ mime = "application/gzip",            use = [ "extract", "reveal" ] },
-	{ mime = "application/x-tar",           use = [ "extract", "reveal" ] },
-	{ mime = "application/x-bzip",          use = [ "extract", "reveal" ] },
-	{ mime = "application/x-bzip2",         use = [ "extract", "reveal" ] },
-	{ mime = "application/x-7z-compressed", use = [ "extract", "reveal" ] },
-	{ mime = "application/x-rar",           use = [ "extract", "reveal" ] },
-	{ mime = "application/x-xz",            use = [ "extract", "reveal" ] },
-
-	{ mime = "*", use = [ "open", "reveal" ] },
+	{ name = "*", use = [ "open", "reveal" ] },
 ]
 
 [tasks]
@@ -83,40 +78,46 @@ suppress_preload = false
 
 [plugin]
 
+fetchers = [
+	# Mimetype
+	{ name = "*", cond = "!mime", run = "mime", prio = "high" },
+]
 preloaders = [
-	{ name = "*", cond = "!mime", run = "mime", multi = true, prio = "high" },
 	# Image
-	{ mime = "image/*", run = "image" },
+	{ mime = "image/svg+xml", run = "magick" },
+	{ mime = "image/heic",    run = "magick" },
+	{ mime = "image/jxl",     run = "magick" },
+	{ mime = "image/*",       run = "image" },
 	# Video
 	{ mime = "video/*", run = "video" },
 	# PDF
 	{ mime = "application/pdf", run = "pdf" },
+	# Font
+	{ mime = "font/*", run = "font" },
+	{ mime = "application/vnd.ms-opentype", run = "font" },
 ]
 previewers = [
 	{ name = "*/", run = "folder", sync = true },
 	# Code
-	{ mime = "text/*",                 run = "code" },
-	{ mime = "*/xml",                  run = "code" },
-	{ mime = "*/javascript",           run = "code" },
-	{ mime = "*/x-wine-extension-ini", run = "code" },
+	{ mime = "text/*", run = "code" },
+	{ mime = "*/{xml,javascript,x-wine-extension-ini}", run = "code" },
 	# JSON
 	{ mime = "application/json", run = "json" },
 	# Image
-	{ mime = "image/vnd.djvu", run = "noop" },
-	{ mime = "image/*",        run = "image" },
+	{ mime = "image/svg+xml", run = "magick" },
+	{ mime = "image/heic",    run = "magick" },
+	{ mime = "image/jxl",     run = "magick" },
+	{ mime = "image/*",       run = "image" },
 	# Video
 	{ mime = "video/*", run = "video" },
 	# PDF
 	{ mime = "application/pdf", run = "pdf" },
 	# Archive
-	{ mime = "application/zip",             run = "archive" },
-	{ mime = "application/gzip",            run = "archive" },
-	{ mime = "application/x-tar",           run = "archive" },
-	{ mime = "application/x-bzip",          run = "archive" },
-	{ mime = "application/x-bzip2",         run = "archive" },
-	{ mime = "application/x-7z-compressed", run = "archive" },
-	{ mime = "application/x-rar",           run = "archive" },
-	{ mime = "application/x-xz",            run = "archive" },
+	{ mime = "application/{,g}zip", run = "archive" },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "archive" },
+	# Font
+	{ mime = "font/*", run = "font" },
+	{ mime = "application/vnd.ms-opentype", run = "font" },
 	# Fallback
 	{ name = "*", run = "file" },
 ]
@@ -186,6 +187,7 @@ open_offset = [ 0, 1, 50, 7 ]
 sort_by        = "none"
 sort_sensitive = false
 sort_reverse   = false
+sort_translit  = false
 
 [log]
 enabled = false
