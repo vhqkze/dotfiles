@@ -10,6 +10,7 @@ linemode       = "size"
 show_hidden    = true
 show_symlink   = true
 scrolloff      = 5
+mouse_events   = [ "click", "scroll" ]
 
 [preview]
 tab_size        = 4
@@ -29,12 +30,12 @@ edit = [
 	{ run = 'code -w "%*"', block = true,  desc = "code (block)", for = "windows" },
 ]
 open = [
-	{ run = 'xdg-open "$@"',                desc = "Open", for = "linux" },
+	{ run = 'xdg-open "$1"',                desc = "Open", for = "linux" },
 	{ run = 'open "$@"',                    desc = "Open", for = "macos" },
 	{ run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]
 reveal = [
-	{ run = 'xdg-open "$(dirname "$0")"',            desc = "Reveal", for = "linux" },
+	{ run = 'xdg-open "$(dirname "$1")"',            desc = "Reveal", for = "linux" },
 	{ run = 'open -R "$1"',                          desc = "Reveal", for = "macos" },
 	{ run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
 	{ run = '''exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
@@ -62,8 +63,8 @@ rules = [
 	{ mime = "application/{,g}zip", use = [ "extract", "reveal" ] },
 	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", use = [ "extract", "reveal" ] },
 
-	{ mime = "application/json", use = [ "edit", "reveal" ] },
-	{ mime = "*/javascript",     use = [ "edit", "reveal" ] },
+	{ mime = "application/{json,x-ndjson}", use = [ "edit", "reveal" ] },
+	{ mime = "*/javascript", use = [ "edit", "reveal" ] },
 
 	{ name = "*", use = [ "open", "reveal" ] },
 ]
@@ -80,14 +81,12 @@ suppress_preload = false
 
 fetchers = [
 	# Mimetype
-	{ name = "*", cond = "!mime", run = "mime", prio = "high" },
+	{ id = "mime", name = "*", run = "mime", if = "!mime", prio = "high" },
 ]
 preloaders = [
 	# Image
-	{ mime = "image/svg+xml", run = "magick" },
-	{ mime = "image/heic",    run = "magick" },
-	{ mime = "image/jxl",     run = "magick" },
-	{ mime = "image/*",       run = "image" },
+	{ mime = "image/{avif,heic,jxl,svg+xml}", run = "magick" },
+	{ mime = "image/*", run = "image" },
 	# Video
 	{ mime = "video/*", run = "video" },
 	# PDF
@@ -102,19 +101,17 @@ previewers = [
 	{ mime = "text/*", run = "code" },
 	{ mime = "*/{xml,javascript,x-wine-extension-ini}", run = "code" },
 	# JSON
-	{ mime = "application/json", run = "json" },
+	{ mime = "application/{json,x-ndjson}", run = "json" },
 	# Image
-	{ mime = "image/svg+xml", run = "magick" },
-	{ mime = "image/heic",    run = "magick" },
-	{ mime = "image/jxl",     run = "magick" },
-	{ mime = "image/*",       run = "image" },
+	{ mime = "image/{avif,heic,jxl,svg+xml}", run = "magick" },
+	{ mime = "image/*", run = "image" },
 	# Video
 	{ mime = "video/*", run = "video" },
 	# PDF
 	{ mime = "application/pdf", run = "pdf" },
 	# Archive
 	{ mime = "application/{,g}zip", run = "archive" },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "archive" },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar,iso9660-image}", run = "archive" },
 	# Font
 	{ mime = "font/*", run = "font" },
 	{ mime = "application/vnd.ms-opentype", run = "font" },
@@ -123,6 +120,8 @@ previewers = [
 ]
 
 [input]
+cursor_blink = true
+
 # cd
 cd_title  = "Change directory:"
 cd_origin = "top-center"
