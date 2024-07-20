@@ -1,0 +1,15 @@
+(
+    enter: Some("⏎ "),
+    shift: Some("󰧇 "),
+    command: Some("󰘳 "),
+    alt: Some("󰘵 "),
+    tab: Some("󰌒 "),
+    back_tab: Some("󰌥 "),
+    left: Some("􀄪 "),
+    right: Some("􀄫 "),
+    up: Some("􀄨 "),
+    down: Some("􀄩 "),
+    home: Some("􀄿 "),
+    end: Some("􀅀 "),
+    esc: Some("􀆧 "),
+)
