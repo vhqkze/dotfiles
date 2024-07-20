@@ -1,0 +1,8 @@
+.DS_Store
+._*
+.localized
+desktop.ini
+Thumbs.db
+
+
+# vim:ft=gitignore:

@@ -1,0 +1,57 @@
+[core]
+    quotepath = false
+    filemode = true
+    autocrlf = input
+    pager = delta
+
+[user]
+    name = vhqkze
+    email = zqz0601@gmail.com
+    signingkey = 354FF77550DD5181AD078B3C96CE9659D695E45D
+
+[commit]
+    gpgsign = true
+
+[init]
+    defaultBranch = main
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    side-by-side = true
+    navigate = true    # use n and N to move between diff sections
+    features = tokyonight-night
+    line-numbers = true
+
+[diff]
+    tool = nvimdiff
+    colorMoved = default
+[difftool]
+    prompt = false
+[difftool "nvimdiff"]
+    cmd = n -d "$LOCAL" "$REMOTE"
+
+# $LOCAL 是远程仓库里的文件，$REMOTE是本地文件
+
+[merge]
+    tool = nvimdiff
+    conflictstyle = diff3
+[mergetool]
+    prompt = false
+    keepBackup = false
+[mergetool "nvimdiff"]
+    cmd = n -d "$MERGED" "$LOCAL" "$BASE" "$REMOTE" -c 'wincmd J'
+
+[include]
+    # path = catppuccin.gitconfig
+    path = tokyonight.gitconfig
+
+[includeIf "gitdir:~/Developer/work/"]
+    path = config_work
+
+[alias]
+    conflicts = diff --name-only --diff-filter=U
+
+
+# vim:ft=gitconfig:
