@@ -10,6 +10,7 @@ echo "(* *)  [| |] {| |} ++ +++  \\/  /\\ |- -| <!-- <!--- <***>"
 echo
 echo "[Test emoji]"
 echo "😝 🥹 😂 👍 🐶 🍭 "
+echo "👨‍👩‍👧‍👦"
 
 echo
 echo "[Test Chinese]"
@@ -21,11 +22,11 @@ echo "[Test icon]"
 echo "powerline:                                         " 
 echo "nerd font:                     "
 echo "codicon  :                                             "
-echo  "┌─────┬─────┐   ┏━━━━━┳━━━━━┓"
-echo  "│     │     │   ┃     ┃     ┃"
-echo  "├─────┼─────┤   ┣━━━━━╋━━━━━┫"
-echo  "│     │     │   ┃     ┃     ┃"
-echo  "└─────┴─────┘   ┗━━━━━┻━━━━━┛"
+echo  "┌─────┬─────┐   ┏━━━━━┳━━━━━┓  ╔═════╦═════╗"
+echo  "│     │     │   ┃     ┃     ┃  ║     ║     ║"
+echo  "├─────┼─────┤   ┣━━━━━╋━━━━━┫  ╠═════╬═════╣"
+echo  "│     │     │   ┃     ┃     ┃  ║     ║     ║"
+echo  "└─────┴─────┘   ┗━━━━━┻━━━━━┛  ╚═════╩═════╝"
 
 echo
 echo "[Test font style]"
@@ -66,9 +67,9 @@ for fgbg in 38 48 ; do # Foreground / Background
         # fi
         
         # Display 12 colors per lines
-        if [ $color -le 15 -a $((($color) % 8)) == 7 ] ; then
+        if (( color <= 15 && color % 8 == 7)); then
             echo # New line
-        elif [ $color -gt 15 -a $((($color) % 12)) == 3 ] ; then
+        elif (( color > 15 && color % 12 == 3)); then
             echo
         fi
     done
@@ -84,4 +85,12 @@ printf '\e[48;2;169;161;225m\e[38;2;0;0;0m  #A9A1E1  \e[0m'
 
 echo
 echo
+echo "[kitty git graph](require kitty>=0.36.0)"
+echo "                     "
+echo "                     "
+
+echo
+echo
+
+
 

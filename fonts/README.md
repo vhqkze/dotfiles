@@ -1,6 +1,6 @@
 ## codicon
 
-我这里保存的是修改版本，原仓库 [microsoft/vscode-codicons](https://github.com/microsoft/vscode-codicons)
+我这里保存的是修改版本(根据原仓库 `eaa0306` 版本修改)，原仓库 [microsoft/vscode-codicons](https://github.com/microsoft/vscode-codicons)
 
 原版字体文件下载链接: <https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.ttf>
 
@@ -253,3 +253,21 @@ print('|')
 |   | U+EC0C | git-pull-request-new-changes |   | U+EC0D | search-fuzzy                            |
 |   | U+EC0E | comment-draft                |   | U+EC0F | send                                    |
 |   | U+EC10 | sparkle                      |   | U+EC11 | insert                                  |
+|   | U+EC12 | mic                          |   | U+EC13 | thumbsdown-filled                       |
+|   | U+EC14 | thumbsup-filled              |   | U+EC15 | coffee                                  |
+|   | U+EC16 | snake                        |   | U+EC17 | game                                    |
+|   | U+EC18 | vr                           |   | U+EC19 | chip                                    |
+|   | U+EC1A | piano                        |   | U+EC1B | music                                   |
+|   | U+EC1C | mic-filled                   |   | U+EC1D | repo-fetch                              |
+|   | U+EC1E | copilot                      |   | U+EC1F | lightbulb-sparkle                       |
+|   | U+EC20 | robot                        |   | U+EC21 | sparkle-filled                          |
+|   | U+EC22 | diff-single                  |   | U+EC23 | diff-multiple                           |
+|   | U+EC24 | surround-with                |   | U+EC25 | share                                   |
+|   | U+EC26 | git-stash                    |   | U+EC27 | git-stash-apply                         |
+|   | U+EC28 | git-stash-pop                |   | U+EC29 | vscode                                  |
+|   | U+EC2A | vscode-insiders              |   | U+EC2B | code-oss                                |
+|   | U+EC2C | run-coverage                 |   | U+EC2D | run-all-coverage                        |
+|   | U+EC2E | coverage                     |   | U+EC2F | github-project                          |
+|   | U+EC30 | map-vertical                 |   | U+EC31 | map-vertical-filled                     |
+|   | U+EC32 | go-to-search                 |   | U+EC33 | percentage                              |
+|   | U+EC34 | attach                       |   | U+F101 | git-fetch                               |
