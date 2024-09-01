@@ -186,6 +186,10 @@ rules = [
 	{ name = "*", is = "orphan", bg = "red" },
 	{ name = "*", is = "exec"  , fg = "green" },
 
+	# Dummy files
+	{ name = "*", is = "dummy", bg = "red" },
+	{ name = "*/", is = "dummy", bg = "red" },
+
 	# Fallback
 	# { name = "*", fg = "white" },
 	{ name = "*/", fg = "blue" }
@@ -768,11 +772,12 @@ conds = [
 	{ if = "fifo"  , text = "" },
 	{ if = "sock"  , text = "" },
 	{ if = "sticky", text = "" },
+	{ if = "dummy",  text = "" },
 
 	# Fallback
-	{ if = "dir", text = "" },
-	{ if = "exec", text = "" },
-	{ if = "!dir", text = "" },
+	{ if = "dir", text = "󰉋" },
+	{ if = "exec", text = "" },
+	{ if = "!dir", text = "󰈔" },
 ]
 
 # : }}}

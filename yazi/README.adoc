@@ -1,0 +1,38 @@
+= Yazi
+
+== Installation
+
+=== macOS
+
+[source, shell]
+----
+# for archive extraction and preview
+brew install unar
+brew install 7zip
+# for video thumbnails
+brew install ffmpegthumbnailer
+# for PDF preview
+brew install poppler
+# for JSON preview
+brew install jq
+# for SVG, Font, HEIC, and JPEG XL preview
+brew isntall imagemagick
+# for file searching
+brew install fd
+# for file content searching
+brew install ripgrep
+# for historical directories navigation
+brew install zoxide
+----
+
+=== Plugins
+
+[source, shell]
+----
+ya pack -a yazi-rs/plugins:max-preview
+----
+
+== Links
+
+* https://github.com/sxyazi/yazi[yazi^]
+* https://yazi-rs.github.io/docs/installation[yazi docs^]
