@@ -63,6 +63,8 @@ DISABLE_MAGIC_FUNCTIONS="true"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+[[ -d "$XDG_STATE_HOME/zsh" ]] || mkdir -p "${XDG_STATE_HOME:=$HOME/.local/state}/zsh"
 
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM="$ZSH/custom"
