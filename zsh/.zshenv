@@ -65,9 +65,7 @@ export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 # less
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 
-if [[ -d "$XDG_STATE_HOME/less" ]]; then
-    mkdir -p "$XDG_STATE_HOME/less"
-fi
+[[ -d "$XDG_STATE_HOME/less" ]] || mkdir -p "$XDG_STATE_HOME/less"
 
 # path
 export PATH="$PATH:$HOME/.local/bin"
@@ -81,6 +79,6 @@ export EDITOR=nvim
 export VISUAL=nvim
 export MANPAGER='nvim +Man! -c "set statuscolumn=" -c "set signcolumn=no" -c "set scrolloff=999" --'
 
-if [[ -f "$HOME/.config/zsh/config/secret" ]]; then
-    source "$HOME/.config/zsh/config/secret"
+if [[ -f "$HOME/.config/zsh/secret" ]]; then
+    source "$HOME/.config/zsh/secret"
 fi
