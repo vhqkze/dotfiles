@@ -196,6 +196,10 @@ if [[ -d "$HOME/.config/zsh/custom" ]]; then
     done
 fi
 
+if command_exist luarocks; then
+    eval "$(luarocks path --bin)"
+fi
+
 # }}}
 
 if command_exist atuin; then
