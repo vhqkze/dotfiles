@@ -1,11 +1,14 @@
 -- sqlite3 yabai.db < create_table.sql
 CREATE TABLE IF NOT EXISTS windows (
-	id INTEGER,
+	id INTEGER primary key,
     pid INTEGER,
     app TEXT,
     title TEXT,
     scratchpad TEXT,
-    frame TEXT,
+    frame_x INTEGER,
+    frame_y INTEGER,
+    frame_w INTEGER,
+    frame_h INTEGER,
     role TEXT,
     subrole TEXT,
     root_window INTEGER,
@@ -33,7 +36,7 @@ CREATE TABLE IF NOT EXISTS windows (
     is_floating INTEGER,
     is_sticky INTEGER,
     is_grabbed INTEGER,
-    create_time TEXT,
+    update_time TEXT,
     focus_time TEXT,
     is_destroyed INTEGER
 );

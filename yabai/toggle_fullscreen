@@ -1,30 +1,9 @@
 #!/usr/bin/env zsh
 
-maximize_window() {
-    yabai -m window "$1" --grid 1:1:0:0:1:1 2>/dev/null
-}
-
-YABAI_DB="${XDG_DATA_HOME:-$HOME/.local/share}/yabai/yabai.db"
-
-restore_window() {
-    frame=$(sqlite3 "$YABAI_DB" "select frame from windows where id = $1 order by focus_time desc" | uniq | sed -n '2 p')
-    if [[ -n "$frame" ]]; then
-        read -r frame_x frame_y frame_w frame_h <<<"$frame"
-        yabai -m window "$1" --move "abs:$frame_x:$frame_y" && yabai -m window "$1" --resize "abs:$frame_w:$frame_h"
-    fi
-}
-
 WINDOW=$(yabai -m query --windows --window)
 if [[ "$(echo "$WINDOW" | jq '.["is-floating"]')" == "true" ]]; then
-    window_id=$(echo "$WINDOW" | jq -r '.id')
-    frame=$(echo "$WINDOW" | jq '.id, .frame.x, .frame.y, .frame.w, .frame.h | nearbyint' | tr '\n' ' ')
-    size=$(echo "$frame" | awk '{ printf "%s:%s", $4, $5 }')
-    if [[ "$size" == "1900:1145" ]]; then
-        restore_window "$window_id"
-    else
-        record_window "$window_id" "$frame"
-        maximize_window "$window_id"
-    fi
+    yabai -m window --grid 1:1:0:0:1:1
 else
     yabai -m window --toggle zoom-fullscreen
 fi
+sketchybar --trigger window_state_changed

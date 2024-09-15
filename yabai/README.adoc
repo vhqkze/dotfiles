@@ -1,0 +1,49 @@
+= Yabai
+:icons: font
+
+== 功能
+
+* 在 `window_created`、`window_focused` 等事件后，记录 `$YABAI_WINDOW_ID` 对应的窗口信息到 sqlite 数据库中。
+* 最小化或关闭一个窗口后，自动 focus 到窗口所在 space 里上一个 focus 的窗口。
+* 对于指定软件，如果关闭最后一个窗口，则退出软件。
+* 新创建窗口时，如果窗口不可调整大小（`can-resize=false`），则修改窗口为 `float`。
+* 新创建窗口时，如果窗口 `is-floating=true`，则将窗口在屏幕居中显示。
+
+
+== 依赖
+
+* https://www.sqlite.org[sqlite^]
+* https://www.lua.org[lua^]
+* https://luarocks.org[luarocks^]
+** https://luarocks.org/modules/dougcurrie/lsqlite3[LuaSQLite3^]
+** https://luarocks.org/modules/openresty/lua-cjson[lua-cjson^]
+** https://luarocks.org/modules/lunarmodules/luasocket[LuaSocket^]
+
+[source, shell]
+----
+brew install sqlite lua luarocks
+luarocks install lsqlite3 lua-cjson luasocket
+----
+
+[WARNING]
+====
+使用 `brew` 安装 `sqlite` 后，需要配置下环境，否则 `lsqlite3` 无法正常使用
+[source, shell]
+----
+PATH="$(brew --prefix sqlite)/bin:$PATH"
+export PATH
+export LDFLAGS="-L$(brew --prefix sqlite)/lib${LDFLAGS:+ $LDFLAGS}"
+export CPPFLAGS="-I$(brew --prefix sqlite)/include${CPPFLAGS:+ $CPPFLAGS}"
+export PKG_CONFIG_PATH="$(brew --prefix sqlite)/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+----
+====
+
+[WARNING]
+====
+安装 `luarocks` 后，使用 `luarocks` 安装包之前，需要配置下 `PATH`
+[source, shell]
+----
+eval "$(luarocks path --bin)"
+----
+====
+
