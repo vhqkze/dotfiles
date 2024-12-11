@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "yazi-rs/plugins:max-preview", rev = "a8421d9" }]
+deps = [{ use = "yazi-rs/plugins:max-preview", rev = "ec97f88" }]
 
 [flavor]
 deps = []
