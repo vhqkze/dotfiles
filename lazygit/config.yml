@@ -1,0 +1,48 @@
+gui:
+  scrollHeight: 2
+  language: "zh-CN"
+  timeFormat: 2006-01-02 15:04:05 -0700
+  shortTimeFormat: 15:04
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor:
+      - "#ff9e64"
+      - "bold"
+    inactiveBorderColor:
+      - "#29a4bd"
+    searchingActiveBorderColor:
+      - "#ff9e64"
+      - "bold"
+    optionsTextColor:
+      - "#7aa2f7"
+    selectedLineBgColor:
+      - "#2e3c64"
+    cherryPickedCommitFgColor:
+      - "#7aa2f7"
+    cherryPickedCommitBgColor:
+      - "#bb9af7"
+    markedBaseCommitFgColor:
+      - "#7aa2f7"
+    markedBaseCommitBgColor:
+      - "#e0af68"
+    unstagedChangesColor:
+      - "#db4b4b"
+    defaultFgColor:
+      - "#c0caf5"
+  showBranchCommitHash: true
+  splitDiff: "auto"
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+  log:
+    showWholeGraph: true
+  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"
+
+keybinding:
+  universal:
+    nextBlock-alt2: <disabled>
+    prevBlock-alt2: <disabled>
+    nextTab: <tab>
+    prevTab: <backtab>
