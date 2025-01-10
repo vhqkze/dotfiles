@@ -21,8 +21,16 @@
 [delta]
     side-by-side = true
     navigate = true    # use n and N to move between diff sections
-    features = tokyonight-night
+    features = tokyonight-storm
     line-numbers = true
+    line-numbers-left-format = " {nm:>} "
+    line-numbers-right-format = " {np:>} "
+    file-decoration-style = "orange ol"
+    file-modified-label = "modified:"
+    hyperlinks = true
+    tabs = 4
+    wrap-right-percent = 0.001
+    wrap-max-lines = 99
 
 [diff]
     tool = nvimdiff
