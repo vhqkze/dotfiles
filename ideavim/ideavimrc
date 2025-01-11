@@ -1,0 +1,139 @@
+" 查看所有支持的set命令: https://github.com/JetBrains/ideavim/wiki/set-commands
+" 查看action，在idea里双击shift，搜索`Track Action Ids`，打开开关
+" 这样每次操作它就会显示对应的action
+" Mappings to <Action> don't work with noremap
+" Please don't use :action in mappings. Use <Action> instead.
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set clipboard+=unnamedplus
+set scrolloff=3
+set sidescrolloff=20
+set highlightedyank
+set ideajoin
+
+" https://github.com/danidiaz/miscellany/blob/master/windows/.ideavimrc
+" set ideamarks
+" set surround
+" set ideajoin
+" set commentary
+
+" dia daa cia caa
+" set argtextobj
+" die dae cie cae
+set textobj-entire
+
+
+
+
+let mapleader=","
+
+xnoremap p "_dP
+xnoremap < <gv
+xnoremap > >gv
+nmap * <Action>(FindWordAtCaret)<Action>(EditorScrollToCenter)
+nmap # <Action>(FindPrevWordAtCaret)<Action>(EditorScrollToCenter)
+xmap * <Action>(FindWordAtCaret)<Action>(EditorScrollToCenter)
+xmap # <Action>(FindPrevWordAtCaret)<Action>(EditorScrollToCenter)
+
+nnoremap Y y$
+" nmap J <Action>(EditorJoinLines)
+
+xmap <tab>      <Action>(EditorIndentSelection)
+xmap <s-tab>    <Action>(EditorUnindentSelection)
+
+xmap J          <Action>(MoveLineDown)
+xmap K          <Action>(MoveLineUp)
+
+" fold
+nmap za         <Action>(ExpandCollapseToggleAction)
+nmap zo         <Action>(ExpandRegion)
+nmap zc         <Action>(CollapseRegion)
+nmap zR         <Action>(ExpandAllRegions)
+nmap zM         <Action>(CollapseAllRegions)
+
+
+nmap u          <action>($Undo)
+nmap <c-r>      <action>($Redo)
+
+nmap gh         <Action>(GotoDeclaration)
+" jump
+nmap <c-o>      <Action>(Back)
+nmap <c-i>      <Action>(Forward)
+nmap g;         <Action>(JumpToLastChange)
+nmap g,         <Action>(JumpToNextChange)
+nmap [e         <Action>(GotoPreviousError)
+nmap ]e         <Action>(GotoNextError)
+
+nmap <leader>fm <Action>(ReformatCode)
+nmap <leader>o  <Action>(OptimizeImports)
+nmap gcc        <Action>(CommentByLineComment)
+xmap gc         <Action>(CommentByLineComment)
+nmap [m         <Action>(MethodUp)
+nmap ]m         <Action>(MethodDown)
+nmap <leader>sp <Action>(osmedile.intellij.stringmanip.SwitchCasePopup)
+nmap <leader>ss <Action>(StringManipulation.ToSnakeCase)
+xmap <leader>ss <Action>(StringManipulation.ToSnakeCase)
+xmap <leader>sq <Action>(StringManipulation.QuoteAction)
+nmap <leader>sx <Action>(osmedile.intellij.stringmanip.swap.SwapQuote)
+
+nmap <leader>ff  <Action>(RecentFiles)
+nmap <leader>fg  <Action>(FindInPath)
+
+nmap / :set hls<cr><Action>(Find)
+nmap n :set hls<cr><Action>(FindNext)<Action>(EditorScrollToCenter)
+nmap N :set hls<cr><Action>(FindPrevious)<Action>(EditorScrollToCenter)
+xmap n :set hls<cr><Action>(FindNext)<Action>(EditorScrollToCenter)
+xmap N :set hls<cr><Action>(FindPrevious)<Action>(EditorScrollToCenter)
+
+" tab
+nnoremap [b gT
+nnoremap ]b gt
+
+
+" git
+nmap [c         <Action>(VcsShowPrevChangeMarker)
+nmap ]c         <Action>(VcsShowNextChangeMarker)
+nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
+
+xmap <leader>cc <Action>(CompareClipboardWithSelection)
+
+
+" move cursor
+nmap <Home>  <Action>(EditorLineStart)
+imap <Home>  <Action>(EditorLineStart)
+nmap <left>  <Action>(EditorLeft)
+nmap <Right> <Action>(EditorRight)
+nmap <Up>    <Action>(EditorUp)
+nmap <Down>  <Action>(EditorDown)
+
+imap <left>  <Action>(EditorLeft)
+imap <Right> <Action>(EditorRight)
+imap <Up>    <Action>(EditorUp)
+imap <Down>  <Action>(EditorDown)
+
+nmap <S-Left>  <Action>(EditorLeftWithSelection)
+nmap <S-Right> <Action>(EditorRightWithSelection)
+nmap <S-Up>    <Action>(EditorUpWithSelection)
+nmap <S-Down>  <Action>(EditorDownWithSelection)
+imap <S-Left>  <Action>(EditorLeftWithSelection)
+imap <S-Right> <Action>(EditorRightWithSelection)
+imap <S-Up>    <Action>(EditorUpWithSelection)
+imap <S-Down>  <Action>(EditorDownWithSelection)
+
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+" :action SplitHorizontally<cr>
+" :action MoveTabDown<cr>
+" :action ChangeSplitOrientation<cr>
+" :action Unsplit<cr>
+" :action MoveEditorToOppositeTabGroup<cr>
+" :action OpenEditorInOppositeTabGroup<cr>
+
+
+" au TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=800}
+" au InsertLeave * :call system("hs -c \"hs.keycodes.currentSourceID('com.apple.keylayout.ABC')\"")
