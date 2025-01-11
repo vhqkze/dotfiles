@@ -5,7 +5,7 @@ clock_config=(
     icon.drawing=off
     label.color="$COLOR_MANTLE"
     label.width=180
-    background.color="$COLOR_SKY"
+    background.color="$COLOR_LAVENDER"
     update_freq=1
     script="$PLUGIN_DIR/clock.sh"
 )

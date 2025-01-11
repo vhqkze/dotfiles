@@ -5,7 +5,8 @@ YABAI_DB="${XDG_DATA_HOME:-$HOME/.local/share}/yabai/yabai.db"
 YABAI_LOG="${XDG_CACHE_HOME:-$HOME/.cache}/yabai/yabai.log"
 EVENT=$1
 WINDOW_ID=$2
-EVENT_TIME=$(perl -MTime::HiRes=time -MDateTime -e 'print DateTime->from_epoch(epoch => time, time_zone => "local")->strftime("%F %T.%3N")')
+time_start=$(ruby -e 'puts((Time.now.to_f*1000).to_i)')
+EVENT_TIME=$(ruby -e 'puts(Time.now.strftime("%F %T.%L"))')
 exec >>(while IFS= read -r line; do echo "$EVENT_TIME $line"; done >> "$YABAI_LOG") 2>&1
 
 function get_window_info {
@@ -29,6 +30,8 @@ function filter_window {
     [[ "$subrole" == "AXSystemDialog" ]] && exit
     [[ "$subrole" == "AXDialog" ]] && exit
     [[ "$app" == "Arc" && "$can_resize" == "false" ]] && exit
+    [[ "$app" == "Bezel" ]] && exit
+    (( frame_w == 30 && frame_h == 23 )) && exit
 }
 
 function get_db_info {
@@ -64,6 +67,7 @@ function set_float_and_center {
     [[ "$app" == "Omi录屏专家" && "$title" == "文件列表" ]] && yabai -m window "$WINDOW_ID" --move abs:10:45 && return
     [[ "$app" == "IINA" ]] && echo "center skip IINA: $WINDOW_ID" && return
     [[ "$app" == "scrcpy" ]] && echo "center skip scrcpy: $WINDOW_ID" && return
+    [[ "$app" == "访达" ]] && echo "center skip 访达: $WINDOW_ID" && return
     [[ "$app" == "Knock" && "$title" == "" ]] && echo "center skip Knock: $WINDOW_ID" && return
     if [[ "$is_floating" == "false" && "$can_resize" == "false" ]]; then
         yabai -m window "$WINDOW_ID" --toggle float
@@ -141,3 +145,6 @@ case "$EVENT" in
     quit_app
     ;;
 esac
+
+time_end=$(ruby -e 'puts((Time.now.to_f*1000).to_i)')
+echo "time spend: $((time_end - time_start))"

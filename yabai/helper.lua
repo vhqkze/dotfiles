@@ -92,7 +92,11 @@ end
 
 ---@return WindowInfo
 local function get_window_info()
-    local window_info = os.capture("yabai -m query --windows --window " .. WINDOW_ID)
+    local window_info = os.capture("yabai -m query --windows --window " .. WINDOW_ID .. " 2>&1", true)
+    if string.match(window_info, "could not locate window with the specified id") then
+        db:execute(string.format("UPDATE windows SET is_destroyed = 1, update_time = strftime('%%F %%R:%%f', 'now', 'localtime') WHERE id = %s", WINDOW_ID))
+        os.exit()
+    end
     if window_info == "" then
         os.exit()
     end
@@ -109,7 +113,6 @@ local function filter_window(window_info)
     local ignore = (window_info.role ~= "" and window_info.role ~= "AXWindow")
         or table.contain({ "AXSystemDialog", "AXDialog" }, window_info.subrole)
         or (window_info.app == "Arc" and window_info.can_resize == false)
-        or window_info.app == "Bezel"
         or (window_info.frame.w == 30 and window_info.frame.h == 23)
     if ignore then
         os.exit()
@@ -185,7 +188,7 @@ end
 --- set window float and center
 ---@param window_info WindowInfo
 local function set_float_and_center(window_info)
-    local ignore = table.contain({ "IINA", "便笺", "scrcpy", "访达" }, window_info.app)
+    local ignore = table.contain({ "iPhone镜像", "IINA", "便笺", "scrcpy", "访达" }, window_info.app)
         or window_info.title == "打开"
         or (window_info.app == "Omi录屏专家" and window_info.title == "文件列表")
     if ignore then
@@ -227,7 +230,7 @@ local function focus_last_window(space_index)
     end
     windows = windows:gsub(",$", "")
     local statement = string.format(
-        "SELECT id FROM windows WHERE space = %s AND is_destroyed = 0 AND is_minimized = 0 AND is_hidden = 0 AND focus_time IS NOT NULL AND id IN (%s) ORDER BY focus_time DESC LIMIT 1",
+        "SELECT id FROM windows WHERE space = %s AND is_destroyed = 0 AND is_minimized = 0 AND is_hidden = 0 AND is_visible = 0 AND focus_time IS NOT NULL AND id IN (%s) ORDER BY focus_time DESC LIMIT 1",
         space_index,
         windows
     )
@@ -235,7 +238,10 @@ local function focus_last_window(space_index)
     if focus_window == nil then
         return
     end
-    os.execute(string.format("yabai -m window %s --focus", focus_window.id))
+    local output = os.capture(string.format("yabai -m window %s --focus 2>&1", focus_window.id), true)
+    if output == 'could not locate the window to act on!' then
+        db:execute(string.format("UPDATE windows SET is_destroyed = 1, update_time = strftime('%%F %%R:%%f', 'now', 'localtime') WHERE id = %s", focus_window.id))
+    end
 end
 
 --- update is_destroyed
@@ -254,6 +260,7 @@ local function quit_app(db_window_info)
         "Numbers 表格",
         "Obsidian",
         "PyCharm",
+        "Passwords",
         "QuickTime Player",
         "Skim",
         "Spacedrive",
@@ -269,6 +276,9 @@ local function quit_app(db_window_info)
         return
     end
     local all_windows = os.capture("yabai -m query --windows")
+    if all_windows == "" then
+        os.exit()
+    end
     all_windows = cjson.decode(all_windows)
     local all_windows_name = {}
     for _, w_info in ipairs(all_windows) do

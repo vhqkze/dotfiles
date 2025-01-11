@@ -46,24 +46,27 @@ yabai -m rule --add app=".*" sub-layer=normal
 
 # manage off
 manage_off_apps="^(OrbStack|预览|系统信息|Raycast|Bezel|活动监视器|Barcode|IINA|便笺|系统设置|Easydict"
-manage_off_apps="${manage_off_apps}|Knock|准入客户端|MindMac|PyCharm|Arc"
+manage_off_apps="${manage_off_apps}|PyCharm|Arc|iPhone镜像|归档使用工具|LuLu"
 manage_off_apps="${manage_off_apps}|访达|Omi录屏专家|iStat Menus Status|QuickTime Player|scrcpy)$"
 yabai -m rule --add app="${manage_off_apps}" manage=off
 yabai -m rule --add subrole="^(AXDialog|AXSystemDialog)$" manage=off
 yabai -m rule --add title="打开" manage=off
 
 # layer above, or sticky
-layer_above_apps='^(通知中心|Barcode|Snipaste|scrcpy|便笺)$'
+layer_above_apps='^(通知中心|Barcode|Snipaste|scrcpy|便笺|ShortcutsViewService)$'
 yabai -m rule --add app="${layer_above_apps}" sub-layer=above
-yabai -m rule --add app="Omi录屏专家" title="文件列表" sub-layer=above sticky=on
-yabai -m rule --add app="Omi录屏专家" title="已选择1个窗口" sub-layer=above
-yabai -m rule --add app="Omi录屏专家" title="已选择1个App" sub-layer=above
-yabai -m rule --add app="QuickTime Player" sticky=on
-yabai -m rule --add app="Bezel" sticky=on sub-layer=below
-yabai -m rule --add app="Hammerspoon" subrole="AXDialog" sub-layer=above sticky=on
+yabai -m rule --add app="Omi录屏专家"         title="文件列表"      sub-layer=above sticky=on
+yabai -m rule --add app="Omi录屏专家"         title="已选择1个窗口" sub-layer=above
+yabai -m rule --add app="Omi录屏专家"         title="已选择1个App"  sub-layer=above
+yabai -m rule --add app="QuickTime Player"    sticky=on
+yabai -m rule --add app="Bezel"               sticky=on             sub-layer=below
+yabai -m rule --add app="Hammerspoon"         subrole="AXDialog"    sub-layer=above sticky=on
+yabai -m rule --add app="访达"                sticky=on
+yabai -m rule --add app="iPhone镜像"          sticky=on
+
 
 # signal
-app_ignore='^(通知中心|控制中心|iStat Menus Status)$'
+app_ignore='^(通知中心|控制中心|iStat Menus Status|Omi录屏专家|Bezel)$'
 
 # yabai -m signal --add event=window_created     action='$HOME/.config/yabai/helper.sh window_created     $YABAI_WINDOW_ID' app!="$app_ignore"
 # yabai -m signal --add event=window_focused     action='$HOME/.config/yabai/helper.sh window_focused     $YABAI_WINDOW_ID' app!="$app_ignore"

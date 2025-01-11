@@ -44,7 +44,7 @@ default_config=(
     icon.y_offset=0
     icon.padding_left=10
     icon.padding_right=3
-    icon.aligh=center
+    icon.align=center
     label.font="$FONT:Regular:13.0"
     label.color=$COLOR_LABEL
     label.y_offset=0
@@ -79,7 +79,7 @@ source "$ITEM_DIR/clock.sh"
 source "$ITEM_DIR/system_status.sh"
 source "$ITEM_DIR/controlcenter.sh"
 source "$ITEM_DIR/weather.sh"
-source "$ITEM_DIR/task.sh"
+# source "$ITEM_DIR/task.sh"
 source "$ITEM_DIR/spotify.sh"
 sketchybar --add alias "Knock,Item-0" right --rename "Knock,Item-0" "Knock" --set "Knock" click_script="open -a 'knock'"
 

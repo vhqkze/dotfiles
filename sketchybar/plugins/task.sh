@@ -35,7 +35,7 @@ set_task_stats() {
     ((total == 0)) && return
     if ((task_total > 0)); then
         sketchybar --add item task.split.$2 popup.task \
-            --set task.split.$2 label="  ---------------------------------"
+            --set task.split.$2 label="────────────────────────────────────"
     fi
     task_total=$((task_total + total))
     for i in $(seq 1 "$total"); do
