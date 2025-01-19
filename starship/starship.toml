@@ -3,9 +3,7 @@
 add_newline = true
 
 
-format = "( $username)( $directory)( $git_branch)( $git_commit)( $git_state)( $git_status)( $golang)( $java)( $lua)( $nodejs)( $python)( $rust)( $custom)( $jobs)( $battery)( $cmd_duration)$fill$time $line_break( $status) $character"
-
-# format = " $character"
+format = "( $username)( $directory)( $git_branch)( $git_commit)( $git_state)( $git_status)( $golang)( $java)( $lua)( $nodejs)( $python)( $swift)( $rust)( $custom)( $jobs)( $battery)( ${custom.proxy})( $cmd_duration)$fill$time $line_break( $status) $character"
 
 
 palette = "catppuccin_macchiato_custom"
@@ -41,7 +39,7 @@ truncation_length = 3
 [status]
 disabled = false
 format = "[$symbol$status]($style)"
-symbol = " "
+symbol = " "
 
 
 [cmd_duration]
@@ -105,23 +103,31 @@ am_or_rebase = "AM/REBASE"
 style        = "yellow"
 format       = "[](lavender_dark)[A](fg:mantle bg:lavender_dark)[](fg:lavender_dark bg:lavender)[$progress_current/$progress_total](fg:mantle bg:lavender)[](lavender)"
 
+[custom.proxy]
+command = 'echo ${http_proxy:-${https_proxy:-${all_proxy}}} | sed -r "s#(https?://)?(127.0.0.1|localhost):##g"'
+when = '[[ -n "$http_proxy" || -n "$https_proxy" || -n "$all_proxy" ]]'
+symbol = "󱂇 "
+format = "([](red)[$symbol](fg:mantle bg:red)[](fg:red bg:flamingo)[ $output](fg:mantle bg:flamingo)[](flamingo))"
 
 [python]
 symbol = " "
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version(\\($virtualenv\\))](fg:mantle bg:green)[](green))"
 
+[java]
+symbol = "󰬷 "
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 [lua]
-symbol = " "
+symbol = "󰢱 "
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 [rust]
-symbol = "🦀"
+symbol = "󱘗 "
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 
 [nodejs]
-symbol = " "
+symbol = "󰎙 "
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 
@@ -129,6 +135,9 @@ format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dar
 symbol = '󰟓 '
 format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
+[swift]
+symbol = "󰛥 "
+format = "([](green_dark)[$symbol](fg:mantle bg:green_dark)[](fg:green_dark bg:green)[ $version](fg:mantle bg:green)[](green))"
 
 
 [palettes.catppuccin_latte]
