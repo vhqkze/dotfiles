@@ -39,6 +39,8 @@ export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 export JUPYTER_CONFIG_DIR="$XDG_DATA_HOME/jupyter"
 # ipython
 export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
+# pipx
+export PIPX_HOME="$XDG_DATA_HOME/pipx"
 # rust
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
