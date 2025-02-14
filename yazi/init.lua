@@ -2,6 +2,7 @@
 
 --- Show symlink in status bar
 ---@see https://yazi-rs.github.io/docs/tips#symlink-in-status
+---@source yazi-plugin/preset/components/status.lua
 function Status:name()
     local h = self._tab.current.hovered
     if not h then
@@ -30,3 +31,22 @@ Status:children_add(function()
         ui.Span(" "),
     })
 end, 500, Status.RIGHT)
+
+---@source yazi-plugin/preset/components/linemode.lua
+function Linemode:btime()
+    local time = math.floor(self._file.cha.btime or 0)
+    if time == 0 then
+        return ""
+    else
+        return os.date("%Y-%m-%d %H:%M:%S", time)
+    end
+end
+
+function Linemode:mtime()
+    local time = math.floor(self._file.cha.mtime or 0)
+    if time == 0 then
+        return ""
+    else
+        return os.date("%Y-%m-%d %H:%M:%S", time)
+    end
+end
