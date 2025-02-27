@@ -3,6 +3,7 @@
 .localized
 desktop.ini
 Thumbs.db
+Icon
 
 
 # vim:ft=gitignore:

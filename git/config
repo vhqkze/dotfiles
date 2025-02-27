@@ -1,3 +1,4 @@
+# vim:ft=gitconfig:
 [core]
     quotepath = false
     filemode = true
@@ -14,6 +15,22 @@
 
 [init]
     defaultBranch = main
+
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
+[tag]
+    sort = -version:refname
+[push]
+    autoSetupRemote = true
+    followTags = true
+[help]
+    autocorrect = prompt
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
 
 [interactive]
     diffFilter = delta --color-only
@@ -35,6 +52,8 @@
 [diff]
     tool = nvimdiff
     colorMoved = default
+    algorithm = histogram
+    renames = true
 [difftool]
     prompt = false
 [difftool "nvimdiff"]
@@ -44,7 +63,7 @@
 
 [merge]
     tool = nvimdiff
-    conflictstyle = diff3
+    conflictstyle = zdiff3
 [mergetool]
     prompt = false
     keepBackup = false
