@@ -4,7 +4,9 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="${ZSH:=${XDG_DATA_HOME:=$HOME/.local/share}/oh-my-zsh}"
-ZSH_COMPDUMP=$ZSH/cache/.zcompdump
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:=$HOME/.cache}/oh-my-zsh"
+ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
+mkdir -p "$ZSH_CACHE_DIR/completions"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -102,20 +104,15 @@ plugins=(
     zsh-vi-mode
 )
 if command_exist poetry; then
-    if [[ ! -d "$ZSH_CUSTOM/plugins/poetry" ]]; then
-        mkdir -p "$ZSH_CUSTOM/plugins/poetry"
-    fi
-    if [[ ! -f "$ZSH_CUSTOM/plugins/poetry/_poetry" ]]; then
-        poetry completions zsh >"$ZSH_CUSTOM/plugins/poetry/_poetry"
-    fi
-    plugins+=(poetry)
+    poetry completions zsh > "${ZSH_CACHE_DIR}/completions/_poetry"
 fi
-if command_exist stuin; then
-    if [[ ! -d "$ZSH_CUSTOM/plugins/atuin" ]]; then
-        mkdir -p "$ZSH_CUSTOM/plugins/atuin"
-        atuin gen-completions --shell zsh --out-dir "$ZSH_CUSTOM/plugins/atuin"
-    fi
-    plugins+=(atuin)
+if command_exist atuin && [[ ! -f "$(brew --prefix)/share/zsh/site-functions/_atuin" ]]; then
+  atuin gen-completions --shell zsh --out-dir "${ZSH_CACHE_DIR}/completions"
+fi
+
+if command_exist rustup; then
+    rustup completions zsh > "${ZSH_CACHE_DIR}/completions/_rustup"
+    rustup completions zsh cargo > "${ZSH_CACHE_DIR}/completions/_cargo"
 fi
 if command_exist systemctl; then
     plugins+=(systemd)
@@ -151,10 +148,6 @@ function zvm_vi_yank() {
     zvm_exit_visual_mode
 }
 # plugin zsh-vi-mode configuration }}}
-
-if command_exist brew; then
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-fi
 
 # plugins need to be added before oh-my-zsh.sh is sourced
 source "$ZSH/oh-my-zsh.sh"

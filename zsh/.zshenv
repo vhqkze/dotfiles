@@ -69,6 +69,9 @@ export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 
 [[ -d "$XDG_STATE_HOME/less" ]] || mkdir -p "$XDG_STATE_HOME/less"
 
+# zoxide
+export _ZO_ECHO=1
+
 # path
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$GOPATH/bin"

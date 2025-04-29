@@ -35,12 +35,12 @@ proxy() {
         unset http_proxy https_proxy ftp_proxy socks_proxy all_proxy
         echo "proxy off"
     elif [[ "$1" =~ ^[0-9]+$ ]]; then
-        export http_proxy="127.0.0.1:$1"
-        export https_proxy="127.0.0.1:$1"
-        export ftp_proxy="127.0.0.1:$1"
-        export socks_proxy="127.0.0.1:$1"
-        export all_proxy="127.0.0.1:$1"
-        echo "set proxy to 127.0.0.1:$1"
+        export http_proxy="http://127.0.0.1:$1"
+        export https_proxy="http://127.0.0.1:$1"
+        export ftp_proxy="http://127.0.0.1:$1"
+        export socks_proxy="http://127.0.0.1:$1"
+        export all_proxy="http://127.0.0.1:$1"
+        echo "set proxy to http://127.0.0.1:$1"
     else
         export http_proxy="$1"
         export https_proxy="$1"
