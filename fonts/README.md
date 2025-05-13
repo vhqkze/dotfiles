@@ -1,6 +1,6 @@
 ## codicon
 
-我这里保存的是修改版本(根据原仓库 `eaa0306` 版本修改)，原仓库 [microsoft/vscode-codicons](https://github.com/microsoft/vscode-codicons)
+我这里保存的是修改版本(根据原仓库 `2da6e76` 版本修改)，原仓库 [microsoft/vscode-codicons](https://github.com/microsoft/vscode-codicons)
 
 原版字体文件下载链接: <https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.ttf>
 
@@ -270,4 +270,13 @@ print('|')
 |   | U+EC2E | coverage                     |   | U+EC2F | github-project                          |
 |   | U+EC30 | map-vertical                 |   | U+EC31 | map-vertical-filled                     |
 |   | U+EC32 | go-to-search                 |   | U+EC33 | percentage                              |
-|   | U+EC34 | attach                       |   | U+F101 | git-fetch                               |
+|   | U+EC34 | attach                       |   | U+EC35 | go-to-editing-session                   |
+|   | U+EC36 | edit-session                 |   | U+EC37 | code-review                             |
+|   | U+EC38 | copilot-warning              |   | U+EC39 | python                                  |
+|   | U+EC3A | copilot-large                |   | U+EC3B | copilot-warning-large                   |
+|   | U+EC3C | keyboard-tab                 |   | U+EC3D | copilot-blocked                         |
+|   | U+EC3E | copilot-not-connected        |   | U+EC3F | flag                                    |
+|   | U+EC40 | lightbulb-empty              |   | U+EC41 | symbol-method-arrow                     |
+|   | U+EC42 | copilot-unavailable          |   | U+EC43 | repo-pinned                             |
+|   | U+EC44 | keyboard-tab-above           |   | U+EC45 | keyboard-tab-below                      |
+|   | U+EC46 | git-pull-request-done        |   | U+F101 | git-fetch                               |
