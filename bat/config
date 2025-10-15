@@ -1,5 +1,6 @@
 # Set the theme
---theme="tokyonight-storm"
+--theme-dark="tokyonight-storm"
+--theme-light="rose-pine-dawn"
 
 # Show line numbers, Git modifications and file header (but no grid)
 --style="numbers,changes,header"
