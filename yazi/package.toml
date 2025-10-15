@@ -1,7 +1,14 @@
 [[plugin.deps]]
-use = "yazi-rs/plugins:max-preview"
-rev = "8945e54"
-hash = "15b2ff7f6563c14d5b2e93b3e9da35de"
+use = "yazi-rs/plugins:toggle-pane"
+rev = "9a52857"
+hash = "8a7c58225816a163a6e8730c0adafbc8"
 
-[flavor]
-deps = []
+[[flavor.deps]]
+use = "Mintass/rose-pine-dawn"
+rev = "5c6d353"
+hash = "1f9b1fa79a11ae9f9255b47380b98775"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-macchiato"
+rev = "2d73b79"
+hash = "511cd19cdec4d505ecf9c1e0d45e5973"
