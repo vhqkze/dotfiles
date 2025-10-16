@@ -8,6 +8,17 @@ export ZSH_CACHE_DIR="${XDG_CACHE_HOME:=$HOME/.cache}/oh-my-zsh"
 ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 
+setopt HIST_FCNTL_LOCK
+unsetopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+unsetopt HIST_IGNORE_ALL_DUPS
+unsetopt HIST_SAVE_NO_DUPS
+unsetopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+unsetopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -66,10 +77,11 @@ DISABLE_MAGIC_FUNCTIONS="true"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
-[[ -d "$XDG_STATE_HOME/zsh" ]] || mkdir -p "${XDG_STATE_HOME:=$HOME/.local/state}/zsh"
+[[ -d "$XDG_STATE_HOME/zsh" ]] || mkdir -p "$XDG_STATE_HOME/zsh"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="$ZSH/custom"
+ZSH_CUSTOM="${ZSH_CUSTOM:=$ZSH/custom}"
+mkdir -p "$ZSH_CUSTOM"
 # setopt HIST_IGNORE_ALL_DUPS
 
 # Which plugins would you like to load?
@@ -104,15 +116,11 @@ plugins=(
     zsh-vi-mode
 )
 if command_exist poetry; then
-    poetry completions zsh > "${ZSH_CACHE_DIR}/completions/_poetry"
+    poetry completions zsh >"${ZSH_CACHE_DIR}/completions/_poetry"
 fi
-if command_exist atuin && [[ ! -f "$(brew --prefix)/share/zsh/site-functions/_atuin" ]]; then
-  atuin gen-completions --shell zsh --out-dir "${ZSH_CACHE_DIR}/completions"
-fi
-
 if command_exist rustup; then
-    rustup completions zsh > "${ZSH_CACHE_DIR}/completions/_rustup"
-    rustup completions zsh cargo > "${ZSH_CACHE_DIR}/completions/_cargo"
+    rustup completions zsh >"${ZSH_CACHE_DIR}/completions/_rustup"
+    rustup completions zsh cargo >"${ZSH_CACHE_DIR}/completions/_cargo"
 fi
 if command_exist systemctl; then
     plugins+=(systemd)
@@ -126,8 +134,6 @@ function zvm_config() {
     ZVM_INIT_MODE=sourcing
     ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
     ZVM_LAZY_KEYBINDINGS=true
-    bindkey -r '^[h'
-    bindkey -r '^[l'
     ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
     ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
     ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
@@ -141,16 +147,20 @@ function zvm_config() {
 #     [[ -n "${key[Up]}" ]] && bindkey "${key[Up]}" history-beginning-search-backward
 #     [[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-beginning-search-forward
 # }
-# see: https://github.com/jeffreytse/zsh-vi-mode/issues/19
-function zvm_vi_yank() {
-    zvm_yank
-    echo "${CUTBUFFER}" | clipcopy
-    zvm_exit_visual_mode
-}
 # plugin zsh-vi-mode configuration }}}
 
 # plugins need to be added before oh-my-zsh.sh is sourced
 source "$ZSH/oh-my-zsh.sh"
+
+# see: https://github.com/jeffreytse/zsh-vi-mode/issues/19
+for f in zvm_backward_kill_region zvm_yank zvm_replace_selection zvm_change_surround_text_object zvm_vi_delete zvm_vi_change zvm_vi_change_eol; do
+    eval "$(echo "_$f() {"; declare -f $f | tail -n +2)"
+    eval "$f() { _$f \"\$@\"; echo -en \$CUTBUFFER | clipcopy }"
+done
+for f in zvm_vi_put_after zvm_vi_put_before zvm_vi_replace_selection; do
+    eval "$(echo "_$f() {"; declare -f $f | tail -n +2)"
+    eval "$f() { CUTBUFFER=\$(clippaste); _$f \"\$@\"; zvm_highlight clear }"
+done
 
 zle_highlight+=('paste:none')
 

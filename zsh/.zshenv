@@ -87,3 +87,8 @@ export MANPAGER='nvim +Man! -c "set statuscolumn=" -c "set signcolumn=no" -c "se
 if [[ -f "$HOME/.config/zsh/secret" ]]; then
     source "$HOME/.config/zsh/secret"
 fi
+
+# nixos, home-manager, home.sessionVariables
+if [[ -f "/etc/profiles/per-user/$(id -n -u)/etc/profile.d/hm-session-vars.sh" ]]; then
+    source "/etc/profiles/per-user/$(id -n -u)/etc/profile.d/hm-session-vars.sh"
+fi
