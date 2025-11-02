@@ -38,7 +38,7 @@
 [delta]
     side-by-side = true
     navigate = true    # use n and N to move between diff sections
-    features = tokyonight-storm
+    ; features = tokyonight-storm
     line-numbers = true
     line-numbers-left-format = " {nm:>} "
     line-numbers-right-format = " {np:>} "

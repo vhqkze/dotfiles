@@ -1,41 +1,17 @@
 gui:
   scrollHeight: 2
   language: "zh-CN"
-  timeFormat: 2006-01-02 15:04:05 -0700
+  timeFormat: 2006-01-02 15:04:05
   shortTimeFormat: 15:04
   nerdFontsVersion: "3"
-  theme:
-    activeBorderColor:
-      - "#ff9e64"
-      - "bold"
-    inactiveBorderColor:
-      - "#29a4bd"
-    searchingActiveBorderColor:
-      - "#ff9e64"
-      - "bold"
-    optionsTextColor:
-      - "#7aa2f7"
-    selectedLineBgColor:
-      - "#2e3c64"
-    cherryPickedCommitFgColor:
-      - "#7aa2f7"
-    cherryPickedCommitBgColor:
-      - "#bb9af7"
-    markedBaseCommitFgColor:
-      - "#7aa2f7"
-    markedBaseCommitBgColor:
-      - "#e0af68"
-    unstagedChangesColor:
-      - "#db4b4b"
-    defaultFgColor:
-      - "#c0caf5"
+  sidePanelWidth: 0.2
   showBranchCommitHash: true
   splitDiff: "auto"
 
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    # light模式下delta也会使用黑色主题，这里让macos下读取系统主题，linux使用dark
+    - pager: delta --$(if [[ "$(uname -s)" == "Darwin" ]]; then if defaults read -g AppleInterfaceStyle 2&>/dev/null; then echo dark; else echo light; fi; else echo dark; fi) --paging=never
   log:
     showWholeGraph: true
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"
