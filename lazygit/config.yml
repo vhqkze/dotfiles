@@ -10,8 +10,7 @@ gui:
 
 git:
   pagers:
-    # light模式下delta也会使用黑色主题，这里让macos下读取系统主题，linux使用dark
-    - pager: delta --$(if [[ "$(uname -s)" == "Darwin" ]]; then if defaults read -g AppleInterfaceStyle 2&>/dev/null; then echo dark; else echo light; fi; else echo dark; fi) --paging=never
+    - pager: delta --paging=never
   log:
     showWholeGraph: true
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"

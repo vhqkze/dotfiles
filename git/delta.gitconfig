@@ -1,0 +1,43 @@
+# vim:ft=gitconfig:
+[delta "tokyonight-storm"]
+    blame-palette                 = "#495071 #363b55 #24283b #171a28 #0e101b"
+    commit-decoration-style       = "#6e738d" bold box ul
+    dark                          = true
+    file-decoration-style         = "#ffa502" bold ol
+    file-style                    = "#ffa502"
+    hunk-header-decoration-style  = "#6e738d" box ul
+    hunk-header-line-number-style = "#7aa2f7"
+    line-numbers-minus-style      = "#914c54"
+    line-numbers-plus-style       = "#449dab"
+    line-numbers-zero-style       = "#3b4261"
+    minus-emph-style              = syntax "#763842"
+    minus-empty-line-marker-style = syntax "#52313f"
+    minus-non-emph-style          = syntax "#52313f"
+    minus-style                   = syntax "#52313f"
+    plus-emph-style               = syntax "#316172"
+    plus-empty-line-marker-style  = syntax "#2b485a"
+    plus-non-emph-style           = syntax "#2b485a"
+    plus-style                    = syntax "#2b485a"
+    syntax-theme                  = tokyonight-storm
+
+
+[delta "rose-pine-dawn"]
+    blame-palette                 = "#faf4ed #f7ece0 #eed6b5 #debc88 #c0a275 #a18861"
+    commit-decoration-style       = "#bbbdca" bold box ul
+    file-decoration-style         = "#286983" bold ol
+    file-style                    = "#286983"
+    hunk-header-decoration-style  = "#bbbdca" box ul
+    hunk-header-line-number-style = "#286983"
+    light                         = true
+    line-numbers-minus-style      = "#b4637a"
+    line-numbers-plus-style       = "#286983"
+    line-numbers-zero-style       = "#bbbdca"
+    minus-emph-style              = syntax "#dcbfc6"
+    minus-empty-line-marker-style = syntax "#f0dedc"
+    minus-non-emph-style          = syntax "#f0dedc"
+    minus-style                   = syntax "#f0dedc"
+    plus-emph-style               = syntax "#b5d1d5"
+    plus-empty-line-marker-style  = syntax "#dce0dd"
+    plus-non-emph-style           = syntax "#dce0dd"
+    plus-style                    = syntax "#dce0dd"
+    syntax-theme                  = rose-pine-dawn

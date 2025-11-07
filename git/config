@@ -38,12 +38,12 @@
 [delta]
     side-by-side = true
     navigate = true    # use n and N to move between diff sections
-    ; features = tokyonight-storm
+	features = tokyonight-storm
+    file-modified-label = "modified:"
     line-numbers = true
     line-numbers-left-format = " {nm:>} "
     line-numbers-right-format = " {np:>} "
-    file-decoration-style = "orange ol"
-    file-modified-label = "modified:"
+    hunk-header-style = line-number syntax
     hyperlinks = true
     tabs = 4
     wrap-right-percent = 0.001
@@ -71,8 +71,7 @@
     cmd = nvim -d "$MERGED" "$LOCAL" "$BASE" "$REMOTE" -c 'wincmd J'
 
 [include]
-    # path = catppuccin.gitconfig
-    path = tokyonight.gitconfig
+    path = delta.gitconfig
 
 [includeIf "gitdir:~/Developer/work/"]
     path = config_work
