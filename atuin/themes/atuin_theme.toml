@@ -1,0 +1,12 @@
+[theme]
+name = "atuin_theme"
+
+[colors]
+AlertInfo = "slategrey"
+AlertWarn = "green"
+AlertError = "tomato"
+Annotation = "seagreen"
+Base = "slategrey"
+Guidance = "orange"
+Important = "mediumseagreen"
+Title = "green"
