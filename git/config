@@ -3,7 +3,7 @@
     quotepath = false
     filemode = true
     autocrlf = input
-    pager = delta
+    pager = delta --side-by-side
 
 [user]
     name = vhqkze
@@ -36,7 +36,7 @@
     diffFilter = delta --color-only
 
 [delta]
-    side-by-side = true
+    ; side-by-side = true
     navigate = true    # use n and N to move between diff sections
 	features = tokyonight-storm
     file-modified-label = "modified:"

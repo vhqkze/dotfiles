@@ -10,6 +10,7 @@ gui:
 
 git:
   pagers:
+    - pager: delta --side-by-side --paging=never
     - pager: delta --paging=never
   log:
     showWholeGraph: true
