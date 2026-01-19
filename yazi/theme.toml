@@ -3,5 +3,5 @@
 light = "rose-pine-dawn"
 dark = "catppuccin-macchiato"
 
-[mgr]
-preview_hovered = { underline = false }
+[indicator]
+preview = { underline = false }

@@ -40,9 +40,9 @@ keymap = [
 	{ on = "L", run = "forward", desc = "Forward to next directory" },
 
 	# Toggle
-	{ on = "<Space>", run = [ "toggle", "arrow next" ], desc = "Toggle the current selection state" },
-	{ on = "<C-a>",   run = "toggle_all --state=on",    desc = "Select all files" },
-	{ on = "<C-r>",   run = "toggle_all",               desc = "Invert selection of all files" },
+	{ on = "<Space>", run = [ "toggle", "arrow 1" ], desc = "Toggle the current selection state" },
+	{ on = "<C-a>",   run = "toggle_all --state=on", desc = "Select all files" },
+	{ on = "<C-r>",   run = "toggle_all",            desc = "Invert selection of all files" },
 
 	# Visual mode
 	{ on = "v", run = "visual_mode",         desc = "Enter visual mode (selection mode)" },
@@ -300,9 +300,10 @@ keymap = [
 	{ on = "p", run = "paste",                                             desc = "Paste copied characters after the cursor" },
 	{ on = "P", run = "paste --before",                                    desc = "Paste copied characters before the cursor" },
 
-	# Undo/Redo
-	{ on = "u",     run = "undo", desc = "Undo the last operation" },
-	{ on = "<C-r>", run = "redo", desc = "Redo the last operation" },
+	# Undo/Redo/Casefy
+	{ on = "u",     run = [ "undo", "casefy lower" ], desc = "Undo, or lowercase if in visual mode" },
+	{ on = "U",     run = "casefy upper",             desc = "Uppercase" },
+	{ on = "<C-r>", run = "redo",                     desc = "Redo the last operation" },
 
 	# Help
 	{ on = "~",          run = "help", desc = "Open help" },
@@ -310,6 +311,7 @@ keymap = [
 ]
 
 [confirm]
+
 keymap = [
 	{ on = "<Esc>",   run = "close",          desc = "Cancel the confirm" },
 	{ on = "<C-[>",   run = "close",          desc = "Cancel the confirm" },

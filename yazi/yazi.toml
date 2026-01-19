@@ -14,7 +14,7 @@ mouse_events   = [ "click", "scroll" ]
 title_format   = "Yazi: {cwd}"
 
 [preview]
-wrap            = "no"
+wrap            = "yes"
 tab_size        = 4
 max_width       = 2000
 max_height      = 2000
@@ -53,8 +53,7 @@ reveal = [
 	{ run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF", for = "unix", block = true },
 ]
 extract = [
-	{ run = 'unar "$1"', desc = "Extract here", for = "unix" },
-	{ run = 'unar "%1"', desc = "Extract here", for = "windows" },
+	{ run = "ya pub extract --list %s", desc = "Extract here" },
 ]
 download = [
 	{ run = "ya emit download --open %S", desc = "Download and open" },
@@ -80,7 +79,7 @@ rules = [
 	# Empty file
 	{ mime = "inode/empty", use = [ "edit", "reveal" ] },
 	# Virtual file system
-	{ mime = "vfs/*", use = "download" },
+	{ mime = "vfs/{absent,stale}", use = "download" },
 	# Fallback
 	{ url = "*", use = [ "open", "reveal" ] },
 ]
@@ -96,8 +95,9 @@ suppress_preload = false
 [plugin]
 fetchers = [
 	# Mimetype
-	{ id = "mime", url = "*/", run = "mime.dir", prio = "high" },
-	{ id = "mime", url = "*", run = "mime.file", prio = "high" },
+	{ id = "mime", url = "*/",         run = "mime.dir", prio = "high" },
+	{ id = "mime", url = "local://*",  run = "mime.local", prio = "high" },
+	{ id = "mime", url = "remote://*", run = "mime.remote", prio = "high" },
 ]
 spotters = [
 	{ url = "*/", run = "folder" },
@@ -112,6 +112,8 @@ spotters = [
 	{ mime = "video/*", run = "video" },
 	# Virtual file system
 	{ mime = "vfs/*", run = "vfs" },
+	# Error
+	{ mime = "null/*", run = "null" },
 	# Fallback
 	{ url = "*", run = "file" },
 ]
@@ -158,6 +160,8 @@ previewers = [
 	{ mime = "inode/empty", run = "empty" },
 	# Virtual file system
 	{ mime = "vfs/*", run = "vfs" },
+	# Error
+	{ mime = "null/*", run = "null" },
 	# Fallback
 	{ url = "*", run = "file" },
 ]
