@@ -139,28 +139,12 @@ function zvm_config() {
     ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
     ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
     ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
+    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 }
-# function zvm_after_init() {
-#     bindkey '^[[A' up-line-or-beginning-search
-#     bindkey '^[[B' down-line-or-beginning-search
-#     keybindings for history autocomplete
-#     [[ -n "${key[Up]}" ]] && bindkey "${key[Up]}" history-beginning-search-backward
-#     [[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-beginning-search-forward
-# }
 # plugin zsh-vi-mode configuration }}}
 
 # plugins need to be added before oh-my-zsh.sh is sourced
 source "$ZSH/oh-my-zsh.sh"
-
-# see: https://github.com/jeffreytse/zsh-vi-mode/issues/19
-for f in zvm_backward_kill_region zvm_yank zvm_replace_selection zvm_change_surround_text_object zvm_vi_delete zvm_vi_change zvm_vi_change_eol; do
-    eval "$(echo "_$f() {"; declare -f $f | tail -n +2)"
-    eval "$f() { _$f \"\$@\"; echo -en \$CUTBUFFER | clipcopy }"
-done
-for f in zvm_vi_put_after zvm_vi_put_before zvm_vi_replace_selection; do
-    eval "$(echo "_$f() {"; declare -f $f | tail -n +2)"
-    eval "$f() { CUTBUFFER=\$(clippaste); _$f \"\$@\"; zvm_highlight clear }"
-done
 
 zle_highlight+=('paste:none')
 
@@ -193,11 +177,13 @@ zle_highlight+=('paste:none')
 
 # User configuration {{{
 
-if [[ -d "$HOME/.config/zsh/custom" ]]; then
-    for file in "$HOME"/.config/zsh/custom/*; do
+# shellcheck disable=SC1073,SC1072
+() {
+    local file
+    for file in "$HOME"/.config/zsh/custom/*.zsh(N); do
         source "$file"
     done
-fi
+}
 
 if command_exist luarocks; then
     eval "$(luarocks path --bin)"

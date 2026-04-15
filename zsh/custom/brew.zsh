@@ -1,5 +1,10 @@
 command_exist brew || return
 
+export HOMEBREW_API_AUTO_UPDATE_SECS=86400
+export HOMEBREW_AUTO_UPDATE_SECS=86400
+export HOMEBREW_BAT=true
+export HOMEBREW_CLEANUP_MAX_AGE_DAYS=30
+
 LOCATION_RUBY="$(brew --prefix ruby)"
 if [[ -d "$LOCATION_RUBY" ]]; then
     PATH="$LOCATION_RUBY/bin:$PATH"

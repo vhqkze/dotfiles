@@ -9,3 +9,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
         fi
     fi
 fi
+
+if [[ -f "$HOME/.orbstack/shell/init.zsh" ]]; then
+    # shellcheck disable=SC1091
+    source "$HOME/.orbstack/shell/init.zsh" 2>/dev/null
+fi

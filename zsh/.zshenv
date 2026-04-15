@@ -54,8 +54,10 @@ export ANDROID_USER_HOME="$XDG_DATA_HOME/android"
 # npm
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
-export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+# deno
+export DENO_INSTALL_ROOT="$XDG_DATA_HOME/deno"
+export PATH="$DENO_INSTALL_ROOT/bin:$PATH"
 # python
 export PYTHONPATH=".:$PYTHONPATH"
 # ruby
@@ -89,6 +91,6 @@ if [[ -f "$HOME/.config/zsh/secret" ]]; then
 fi
 
 # nixos, home-manager, home.sessionVariables
-if [[ -f "/etc/profiles/per-user/$(id -n -u)/etc/profile.d/hm-session-vars.sh" ]]; then
-    source "/etc/profiles/per-user/$(id -n -u)/etc/profile.d/hm-session-vars.sh"
+if [[ -f "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh" ]]; then
+    source "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
 fi

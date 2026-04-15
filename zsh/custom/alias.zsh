@@ -5,3 +5,5 @@ alias rm="rm -r"
 alias cp="cp -r"
 alias n=nvim
 alias lg=lazygit
+
+alias -s git='git clone --depth=1'

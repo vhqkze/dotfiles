@@ -50,3 +50,7 @@ proxy() {
         echo "set proxy to $1"
     fi
 }
+
+7zzip() {
+    7zz a -tzip -xr'!.DS_Store' -xr'!__MACOSX' "$@"
+}
