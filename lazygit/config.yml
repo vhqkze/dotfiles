@@ -13,8 +13,13 @@ git:
     - pager: delta --side-by-side --paging=never
     - pager: delta --paging=never
   log:
-    showWholeGraph: true
-  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"
+    showWholeGraph: false
+  branchLogCmd: git log --graph --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(cyan)%G?%Creset %C(blue)%ad%Creset %s' {{branchName}} --date=relative --
+  allBranchesLogCmds:
+    - git log --graph --branches --remotes --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(cyan)%G?%Creset %C(blue)%ad%Creset %s' --date=relative --
+    - git log --color=always --branches --remotes --full-history --decorate --format=full --name-status --show-signature
+
+notARepository: "skip"
 
 keybinding:
   universal:

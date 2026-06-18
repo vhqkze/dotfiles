@@ -21,10 +21,13 @@
 [branch]
     sort = -committerdate
 [tag]
-    sort = -version:refname
+    sort = -creatordate
+[pull]
+    rebase = true
 [push]
     autoSetupRemote = true
     followTags = true
+    useForceIfIncludes = true
 [help]
     autocorrect = prompt
 [fetch]
@@ -59,8 +62,6 @@
 [difftool "nvimdiff"]
     cmd = nvim -d "$LOCAL" "$REMOTE"
 
-# $LOCAL 是远程仓库里的文件，$REMOTE是本地文件
-
 [merge]
     tool = nvimdiff
     conflictstyle = zdiff3
@@ -78,6 +79,5 @@
 
 [alias]
     conflicts = diff --name-only --diff-filter=U
-
-
-# vim:ft=gitconfig:
+[log]
+    date = iso
