@@ -1,4 +1,4 @@
-command_exist yabai || return
+(($+commands[yabai])) || return
 
 #######################################
 # 更新yabai后，重新获取sha256sum，更新/private/etc/sudoers.d/yabai 文件

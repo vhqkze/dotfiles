@@ -1,104 +1,59 @@
 # shellcheck disable=SC2034,SC1090,SC1091
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="${ZSH:=${XDG_DATA_HOME:=$HOME/.local/share}/oh-my-zsh}"
-export ZSH_CACHE_DIR="${XDG_CACHE_HOME:=$HOME/.cache}/oh-my-zsh"
-ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
-mkdir -p "$ZSH_CACHE_DIR/completions"
-
-setopt HIST_FCNTL_LOCK
-unsetopt APPEND_HISTORY
-setopt HIST_IGNORE_DUPS
-unsetopt HIST_IGNORE_ALL_DUPS
-unsetopt HIST_SAVE_NO_DUPS
-unsetopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_SPACE
-unsetopt HIST_EXPIRE_DUPS_FIRST
-setopt SHARE_HISTORY
-setopt EXTENDED_HISTORY
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="ys"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-zstyle ':omz:update' mode reminder # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 [[ -d "$XDG_STATE_HOME/zsh" ]] || mkdir -p "$XDG_STATE_HOME/zsh"
 
-# Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="${ZSH_CUSTOM:=$ZSH/custom}"
-mkdir -p "$ZSH_CUSTOM"
-# setopt HIST_IGNORE_ALL_DUPS
+ZSH_THEME=""
+zstyle ':omz:update' mode reminder # just remind me to update when it's time
+zstyle ':omz:update' frequency 13
+DISABLE_MAGIC_FUNCTIONS="true"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
-command_exist() {
-    command -v "$@" >/dev/null 2>&1
+ensure_completion() {
+    local cmd="$1"
+    local comp_cmd="$2"
+    local comp_file="$ZSH_CACHE_DIR/completions/_$cmd"
+    if ((!$+commands[$cmd])); then
+        [[ -f "$comp_file" ]] && rm -f "$comp_file"
+        return
+    fi
+    # 检查 Homebrew 或系统其他 fpath 目录中是否已自带该补全
+    local exclude_dir=("$ZSH_CACHE_DIR/completions")
+    local other_fpath=(${fpath:|exclude_dir})
+    local -a matches
+    # shellcheck disable=SC1036
+    matches=($^other_fpath/_$cmd(N))
+    if (($#matches > 0)); then
+        [[ -f "$comp_file" ]] && rm -f "$comp_file"
+        return
+    fi
+    # 获取二进制程序的真实物理路径（:A 修饰符会自动解析所有软链接）
+    local real_bin="${commands[$cmd]:A}"
+    # 触发重新生成的两个条件：
+    # 1. 补全文件不存在
+    # 2. 软件更新了（真实二进制文件的修改时间比补全文件更新: -nt）
+    if [[ ! -f "$comp_file" ]] || [[ "$real_bin" -nt "$comp_file" ]]; then
+        echo "正在为 $cmd 生成/更新 zsh 补全..."
+        eval "$comp_cmd" >"$comp_file" 2>/dev/null
+
+        # # 这一段不需要，oh-my-zsh.sh 里会加载
+        # # 如果生成成功，刷新当前 zsh session 对该补全函数的加载定义
+        # if [[ -s "$comp_file" ]]; then
+        #     autoload -Uz "_$cmd" 2>/dev/null
+        # else
+        #     # 避免生成空文件导致下次依然失效
+        #     rm -f "$comp_file"
+        # fi
+    fi
 }
+
+# 对于不是通过包管理器安装的软件，自动生成补全文件
+ensure_completion "poetry" "poetry completions zsh"
+ensure_completion "rustup" "rustup completions zsh"
+ensure_completion "cargo" "rustup completions zsh cargo"
 
 if [[ ! -d "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" ]]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
-fi
-if [[ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
 fi
 if [[ ! -d "${ZSH_CUSTOM}/plugins/zsh-vi-mode" ]]; then
     git clone https://github.com/jeffreytse/zsh-vi-mode.git "${ZSH_CUSTOM}/plugins/zsh-vi-mode"
@@ -110,21 +65,15 @@ fi
 plugins=(
     starship
     zoxide
-    zsh-autosuggestions
-    fast-syntax-highlighting
-    # zsh-syntax-highlighting
-    zsh-vi-mode
 )
-if command_exist poetry; then
-    poetry completions zsh >"${ZSH_CACHE_DIR}/completions/_poetry"
-fi
-if command_exist rustup; then
-    rustup completions zsh >"${ZSH_CACHE_DIR}/completions/_rustup"
-    rustup completions zsh cargo >"${ZSH_CACHE_DIR}/completions/_cargo"
-fi
-if command_exist systemctl; then
+if (($+commands[systemctl])); then
     plugins+=(systemd)
 fi
+plugins+=(
+    zsh-autosuggestions
+    fast-syntax-highlighting
+    zsh-vi-mode
+)
 
 # plugin zsh-vi-mode configuration {{{
 function zvm_config() {
@@ -146,51 +95,31 @@ function zvm_config() {
 # plugins need to be added before oh-my-zsh.sh is sourced
 source "$ZSH/oh-my-zsh.sh"
 
+setopt HIST_FCNTL_LOCK
+unsetopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+unsetopt HIST_IGNORE_ALL_DUPS
+unsetopt HIST_SAVE_NO_DUPS
+unsetopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+unsetopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+
 zle_highlight+=('paste:none')
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG="en_US.UTF-8"
-# export LANG="zh_CN.UTF-8"
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# User configuration {{{
 
 # shellcheck disable=SC1073,SC1072
 () {
     local file
-    for file in "$HOME"/.config/zsh/custom/*.zsh(N); do
+    for file in "$XDG_CONFIG_HOME"/zsh/custom/*.zsh(N); do
         source "$file"
     done
 }
 
-if command_exist luarocks; then
+if (($+commands[luarocks])); then
     eval "$(luarocks path --bin)"
 fi
 
-# }}}
-
-if command_exist atuin; then
+if (($+commands[atuin])); then
     eval "$(atuin init zsh)"
 fi

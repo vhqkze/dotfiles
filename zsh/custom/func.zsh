@@ -11,8 +11,8 @@ push() {
 }
 
 adb_install_latest() {
-    echo "adb install -r -d $(exa "$HOME"/Downloads/*.apk -s new -1 | tail -n 1)"
-    adb install -r -d "$(exa "$HOME"/Downloads/*.apk -s new -1 | tail -n 1)"
+    echo "adb install -r -d $(\eza "$HOME"/Downloads/*.apk -s new -1 | tail -n 1)"
+    adb install -r -d "$(\eza "$HOME"/Downloads/*.apk -s new -1 | tail -n 1)"
 }
 
 tte() {

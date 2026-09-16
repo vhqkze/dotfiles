@@ -1,4 +1,4 @@
-command_exist brew || return
+(($+commands[brew])) || return
 
 export HOMEBREW_API_AUTO_UPDATE_SECS=86400
 export HOMEBREW_AUTO_UPDATE_SECS=86400

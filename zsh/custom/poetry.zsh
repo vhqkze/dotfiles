@@ -1,4 +1,4 @@
-command_exist poetry || return
+(($+commands[poetry])) || return
 
 alias py="poetry"
 alias pye='eval $(poetry env activate)'

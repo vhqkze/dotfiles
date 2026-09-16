@@ -1,4 +1,4 @@
-command_exist silicon || return
+(($+commands[silicon])) || return
 
 siliconpng() {
     local config

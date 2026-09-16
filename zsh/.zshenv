@@ -19,17 +19,27 @@
 
 # xdg
 # see: https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 if [ ! -w "${XDG_RUNTIME_DIR:="/run/user/$UID"}" ]; then
-    XDG_RUNTIME_DIR=/tmp
+    XDG_RUNTIME_DIR="/tmp/user-$UID-runtime"
+    [[ -d "$XDG_RUNTIME_DIR" ]] || mkdir -p -m 0700 "$XDG_RUNTIME_DIR"
 fi
 export XDG_RUNTIME_DIR
 
+# oh-my-zsh
+export ZSH="${ZSH:-$XDG_DATA_HOME/oh-my-zsh}"
+export ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
+export ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-$XDG_CACHE_HOME/oh-my-zsh}"
+export ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump-${ZSH_VERSION}"
+
+[[ -d "$ZSH_CACHE_DIR/completions" ]] || mkdir -p "$ZSH_CACHE_DIR/completions"
+[[ -d "$ZSH_CUSTOM" ]] || mkdir -p "$ZSH_CUSTOM"
+
 # mail
-export MAILRC="$HOME/.config/mail/mailrc"
+export MAILRC="$XDG_CONFIG_HOME/mail/mailrc"
 # gpg
 GPG_TTY=$(tty)
 export GPG_TTY
@@ -68,8 +78,10 @@ export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME"/bundle
 export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 # less
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
-
 [[ -d "$XDG_STATE_HOME/less" ]] || mkdir -p "$XDG_STATE_HOME/less"
+
+# ansible
+export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible"
 
 # zoxide
 export _ZO_ECHO=1
@@ -86,8 +98,8 @@ export EDITOR=nvim
 export VISUAL=nvim
 export MANPAGER='nvim +Man! -c "set statuscolumn=" -c "set signcolumn=no" -c "set scrolloff=999" --'
 
-if [[ -f "$HOME/.config/zsh/secret" ]]; then
-    source "$HOME/.config/zsh/secret"
+if [[ -f "$XDG_CONFIG_HOME/zsh/secret" ]]; then
+    source "$XDG_CONFIG_HOME/zsh/secret"
 fi
 
 # nixos, home-manager, home.sessionVariables
