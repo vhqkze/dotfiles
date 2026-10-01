@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "ae1335e"
-hash = "9c7987da2d2a2120dac33abb64132004"
+rev = "33dde28"
+hash = "5b2fbef7d1513ce38ff72623a071a5e"
 
 [[flavor.deps]]
 use = "Mintass/rose-pine-dawn"
@@ -10,5 +10,5 @@ hash = "15ae5f83d3770b9ffc276af77f642e2b"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-macchiato"
-rev = "0f9204b"
-hash = "67f2240fd9c98f21714527a24cd672f8"
+rev = "1183892"
+hash = "5b1bf96d1cba26376087c37de993c517"
