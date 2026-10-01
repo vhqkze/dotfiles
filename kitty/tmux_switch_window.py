@@ -12,8 +12,8 @@ def handle_result(args: list[str], result: str, target_window_id: int, boss: Bos
     window = boss.window_id_map.get(target_window_id)
     if window is None or boss.active_tab is None:
         return
-    cmd = window.child.foreground_cmdline[0]
-    if cmd in ['tmux', 'ssh', '/usr/bin/ssh']:
+    cmd = window.child.foreground_cmdline[0].split('/')[-1]
+    if cmd in ['tmux', 'ssh']:
         _ = window.send_key("ctrl+b", window_index)
     else:
         _ = window.send_key("ctrl+" + window_index)

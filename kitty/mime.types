@@ -1,0 +1,14 @@
+text/javascript         jsx
+text/plain              lock ron http rest
+text/vnd.typst          typ
+text/x-asciidoc         adoc asciidoc
+text/x-clojure          clj cljs
+text/x-elixir           ex exs
+text/x-go               go
+text/x-kotlin           kt kts
+text/x-lua              lua
+text/x-perl             pl pm
+text/x-php              php
+text/x-rust             rs
+text/x-swift            swift
+text/x-typescript       ts tsx
