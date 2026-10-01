@@ -7,16 +7,17 @@ gui:
   sidePanelWidth: 0.2
   showBranchCommitHash: true
   splitDiff: "auto"
+  showCommandLog: false
 
 git:
-  pagers:
-    - pager: delta --side-by-side --paging=never
-    - pager: delta --paging=never
+  diffRenderers:
+    - command: delta --side-by-side --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    - command: delta --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
   log:
     showWholeGraph: false
-  branchLogCmd: git log --graph --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(cyan)%G?%Creset %C(blue)%ad%Creset %s' {{branchName}} --date=relative --
+  branchLogCmd: git log --graph --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(blue)%ad%Creset %s' {{branchName}} --date=relative --
   allBranchesLogCmds:
-    - git log --graph --branches --remotes --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(cyan)%G?%Creset %C(blue)%ad%Creset %s' --date=relative --
+    - git log --graph --branches --remotes --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(blue)%ad%Creset %s' --date=relative --
     - git log --color=always --branches --remotes --full-history --decorate --format=full --name-status --show-signature
 
 notARepository: "skip"
