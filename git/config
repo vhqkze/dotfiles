@@ -61,6 +61,8 @@
     prompt = false
 [difftool "nvimdiff"]
     cmd = nvim -d "$LOCAL" "$REMOTE"
+[diff "sopsdiffer"]
+    textconv = sops -d
 
 [merge]
     tool = nvimdiff
