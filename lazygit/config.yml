@@ -8,6 +8,10 @@ gui:
   showBranchCommitHash: true
   splitDiff: "auto"
   showCommandLog: false
+  commitGraphStyle: detailed
+  darkTheme:
+    selectedLineBgColor:
+      - "#565f89"
 
 git:
   diffRenderers:
@@ -19,6 +23,7 @@ git:
   allBranchesLogCmds:
     - git log --graph --branches --remotes --color=always --pretty=format:'%C(yellow)%h%Creset %C(auto)%d%Creset %C(magenta)<%an>%Creset %C(blue)%ad%Creset %s' --date=relative --
     - git log --color=always --branches --remotes --full-history --decorate --format=full --name-status --show-signature
+  overrideGpg: false
 
 notARepository: "skip"
 
